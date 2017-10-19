@@ -21,10 +21,14 @@ int main () {
 	l1.addElement(6);
 	l1.addElement(7);
 	l1.addElement(8);
+	l1.addElement(9);
+	l1.addElement(10, 3);
 
 	l1.print();
 
-	l1.removeElement(3);
+	l1.removeElement(5);
+	l1.removeElement(0);
+	l1.removeElement(2);
 
 	l1.print();
 

@@ -92,12 +92,18 @@ void List<T>::addLastNode(Node<T>* newNode) {
 
 template<typename T>
 void List<T>::addNode(Node<T>* newNode, int index) {
-	if(!isEmpty && index > size) {
+	if(index == 0) {
+		return addFirstNode(newNode);
+	}
+	if(!isEmpty() && index > size) {
 		return;
 	}
 
 	Node<T>* node = getNode(index - 1);
+	newNode->setNext(node->getNext());
 	node->setNext(newNode);
+
+	++size;
 }
 
 template<typename T>
@@ -123,6 +129,8 @@ void List<T>::removeFirstNode() {
 	Node<T>* newHead = head->getNext();
 	delete head;
 	head = newHead;
+
+	--size;
 }
 
 template<typename T>
@@ -138,6 +146,8 @@ void List<T>::removeLastNode() {
 	Node<T>* preLastNode = getNode(size - 2);
 	delete preLastNode->getNext();
 	preLastNode->setNext(NULL);
+
+	--size;
 }
 
 template<typename T>
@@ -146,16 +156,18 @@ void List<T>::removeElement(int index) {
 		return;
 	}
 	if(index == 0) {
-		removeFirstNode();
+		return removeFirstNode();
 	}
 	if(index == size - 1) {
-		removeLastNode();
+		return removeLastNode();
 	}
 
 	Node<T>* preOldNode = getNode(index - 1);
 	Node<T>* oldNode = preOldNode->getNext();
 	preOldNode->setNext(oldNode->getNext());
 	delete oldNode;
+
+	--size;
 }
 
 // ----------------------  BIG FOUR ----------------------------
