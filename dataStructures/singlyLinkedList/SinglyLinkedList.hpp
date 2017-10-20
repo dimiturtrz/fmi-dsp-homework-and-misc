@@ -185,7 +185,7 @@ List<T>& List<T>::operator=(const List& other) {
 	if(this != &other) {
 		copy(other);
 	}
-	return &this;
+	return *this;
 }
 
 template<typename T>
