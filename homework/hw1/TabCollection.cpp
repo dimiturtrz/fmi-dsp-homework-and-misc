@@ -8,7 +8,14 @@ void TabCollection::copy(const TabCollection& other){
 	clear();
 	firstTab = new Tab(*(other.firstTab));
 	Tab* iter = firstTab;
-	for(const Tab* otherIter = other.firstTab; otherIter != NULL; otherIter = otherIter->getNext()) {
+
+	if (other.isThereOneTab()) {
+		currentTab = firstTab;
+		return;
+	}
+
+	for(const Tab* otherIter = other.firstTab->getNext(); otherIter != NULL; otherIter = otherIter->getNext()) {
+
 		Tab* newTab = new Tab(otherIter->getUrl(), iter);
 		iter = newTab;
 
@@ -20,17 +27,18 @@ void TabCollection::copy(const TabCollection& other){
 
 void TabCollection::clear() {
 	const Tab* iter = firstTab;
-	while(iter != NULL) {
-		delete iter->getPrev();
-		iter = iter->getNext();
+	const Tab* nextIter = firstTab;
+	while(nextIter != NULL) {
+		nextIter = nextIter->getNext();
+		delete iter;
+		iter = nextIter;
 	}
-	delete iter;
 
 	firstTab = NULL;
 	currentTab = NULL;
 }
 
-bool TabCollection::isThereOneTab() {
+bool TabCollection::isThereOneTab() const {
 	return (firstTab->getNext() == NULL);
 }
 
@@ -56,7 +64,7 @@ TabCollection::~TabCollection() {
 	clear();
 }
 
-// ----------------------- GETTERS, SETTERS --------------------------
+// ------------------- GETTERS, SETTERS --------------------
 
 const Tab* TabCollection::getCurrentTab() const {
 	return currentTab;
@@ -65,7 +73,7 @@ const Tab* TabCollection::getFirstTab() const {
 	return firstTab;
 }
 
-// ----------------------- CREATION, DELETION ------------------------
+// ------------------ CREATION, DELETION --------------------
 
 void TabCollection::openTab(const char* url) {
 	currentTab = new Tab(url, currentTab, currentTab->getNext());
@@ -106,12 +114,12 @@ void TabCollection::goForward() {
 
 // ------------------------ PRINTS -----------------------------
 
-void TabCollection::print() {
+void TabCollection::print() const {
 	cout<< *this;
 }
 
 ostream& operator<<(ostream& stream, const TabCollection& tabCollection) {
 	for(const Tab* iter = tabCollection.getFirstTab(); iter != NULL; iter = iter->getNext()) {
-		cout<< "> "<< *iter<< endl;
+		cout<< ">"<< *iter<< endl;
 	}
 }

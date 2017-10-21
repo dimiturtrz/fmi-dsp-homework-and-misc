@@ -15,7 +15,7 @@ class Tab {
 	void copy(const Tab& other);
 
 public:
-	Tab(const char* url = "about:blank", Tab* prev = NULL, Tab* next = NULL);
+	Tab(const char* url = " about:blank", Tab* prev = NULL, Tab* next = NULL);
 	Tab(const Tab& other);
 	Tab& operator=(const Tab& other);
 	~Tab();

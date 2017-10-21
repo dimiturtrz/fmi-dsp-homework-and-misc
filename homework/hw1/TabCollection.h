@@ -18,16 +18,16 @@ public:
 	TabCollection& operator=(const TabCollection& other);
 	~TabCollection();
 
-	bool isThereOneTab();
+	bool isThereOneTab() const;
 
 	void openTab(const char* url);
 	void closeCurrentTab();
 
-	void openUrl(const char* url = "about:blank");
+	void openUrl(const char* url = " about:blank");
 	void goBackwards();
 	void goForward();
 
-	void print();
+	void print() const;
 
 	const Tab* getCurrentTab() const;
 	const Tab* getFirstTab() const;
