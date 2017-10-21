@@ -1,9 +1,9 @@
+#ifndef TAB_H
+#define TAB_H
+
 #include <time.h>
 #include <iostream>
 using namespace std;
-
-#ifndef TAB_H
-#define TAB_H
 
 class Tab {
 	char* url;
@@ -15,10 +15,13 @@ class Tab {
 	void copy(const Tab& other);
 
 public:
-	Tab(const char* url = "about:blank", Tab* next = NULL, Tab* prev = NULL);
+	Tab(const char* url = "about:blank", Tab* prev = NULL, Tab* next = NULL);
 	Tab(const Tab& other);
 	Tab& operator=(const Tab& other);
 	~Tab();
+
+	Tab* getNext();
+	Tab* getPrev();
 
 	const Tab* getNext() const;
 	const Tab* getPrev() const;

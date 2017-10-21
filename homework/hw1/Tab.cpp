@@ -3,15 +3,21 @@
 #include <iostream>
 using namespace std;
 
+// -------------------------- HELPER --------------------------
 void Tab::copy(const Tab& other) {
 	setUrl(other.url);
 	timestamp = other.timestamp;
 }
 
-Tab::Tab(const char* url, Tab* next, Tab* prev) : url(NULL), next(next), prev(prev) {
+Tab::Tab(const char* url, Tab* prev, Tab* next) : url(NULL) {
+	setNext(next);
+	setPrev(prev);
+
 	setUrl(url);
 	timestamp = time(NULL);
 }
+
+// ------------------------ BIG FOUR --------------------------
 Tab::Tab(const Tab& other) {
 	copy(other);
 }
@@ -25,6 +31,15 @@ Tab::~Tab() {
 	delete [] url;
 }
 
+// --------------------- GETTERS, SETTERS ---------------------
+
+Tab* Tab::getNext() {
+	return next;
+}
+Tab* Tab::getPrev() {
+	return prev;
+}
+
 const Tab* Tab::getNext() const {
 	return next;
 }
@@ -34,9 +49,17 @@ const Tab* Tab::getPrev() const {
 
 void Tab::setNext(Tab* newNext){
 	next = newNext;
+
+	if(newNext != NULL) {
+		newNext->prev = this;
+	}
 }
 void Tab::setPrev(Tab* newPrev){
 	prev = newPrev;
+
+	if(newPrev != NULL) {
+		newPrev->next = this;
+	}
 }
 
 const char* Tab::getUrl() const {
@@ -61,6 +84,8 @@ time_t Tab::getTimestamp() const {
 void Tab::resetTimestamp() {
 	timestamp = time(NULL);
 }
+
+// --------------------- PRINTS ----------------------
 
 ostream& operator<<(ostream& stream, const Tab& tab) {
 	stream<< tab.getUrl()<< " "<< tab.getTimestamp();
