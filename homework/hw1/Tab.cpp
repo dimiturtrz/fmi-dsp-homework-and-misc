@@ -1,12 +1,14 @@
 #include "Tab.h"
 #include <time.h>
+#include <iostream>
+using namespace std;
 
 void Tab::copy(const Tab& other) {
 	setUrl(other.url);
 	timestamp = other.timestamp;
 }
 
-Tab::Tab(char* url, Tab* next, Tab* prev) : url(NULL), next(next), prev(prev) {
+Tab::Tab(const char* url, Tab* next, Tab* prev) : url(NULL), next(next), prev(prev) {
 	setUrl(url);
 	timestamp = time(NULL);
 }
@@ -23,10 +25,10 @@ Tab::~Tab() {
 	delete [] url;
 }
 
-Tab* Tab::getNext() {
+const Tab* Tab::getNext() const {
 	return next;
 }
-Tab* Tab::getPrev(){
+const Tab* Tab::getPrev() const {
 	return prev;
 }
 
@@ -37,10 +39,10 @@ void Tab::setPrev(Tab* newPrev){
 	prev = newPrev;
 }
 
-char* Tab::getUrl(){
+const char* Tab::getUrl() const {
 	return url;
 }
-void Tab::setUrl(char* newUrl) {
+void Tab::setUrl(const char* newUrl) {
 	delete [] url;
 
 	int length = 0;
@@ -53,6 +55,14 @@ void Tab::setUrl(char* newUrl) {
 	}
 }
 
-time_t Tab::getTimestamp(){
+time_t Tab::getTimestamp() const {
 	return timestamp;
+}
+void Tab::resetTimestamp() {
+	timestamp = time(NULL);
+}
+
+ostream& operator<<(ostream& stream, const Tab& tab) {
+	stream<< tab.getUrl()<< " "<< tab.getTimestamp();
+	return stream;
 }

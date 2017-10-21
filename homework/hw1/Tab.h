@@ -1,4 +1,6 @@
-#include<time.h>
+#include <time.h>
+#include <iostream>
+using namespace std;
 
 #ifndef TAB_H
 #define TAB_H
@@ -13,21 +15,24 @@ class Tab {
 	void copy(const Tab& other);
 
 public:
-	Tab(char* url = "about:blank", Tab* next = NULL, Tab* prev = NULL);
+	Tab(const char* url = "about:blank", Tab* next = NULL, Tab* prev = NULL);
 	Tab(const Tab& other);
 	Tab& operator=(const Tab& other);
 	~Tab();
 
-	Tab* getNext();
-	Tab* getPrev();
+	const Tab* getNext() const;
+	const Tab* getPrev() const;
 
 	void setNext(Tab* newNext);
 	void setPrev(Tab* newPrev);
 
-	char* getUrl();
-	void setUrl(char* newName);
+	const char* getUrl() const;
+	void setUrl(const char* newName);
 
-	time_t getTimestamp();
+	time_t getTimestamp() const;
+	void resetTimestamp();
 };
+
+ostream& operator<<(ostream& stream, const Tab& tab);
 
 #endif
