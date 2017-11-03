@@ -120,7 +120,10 @@ void TabCollection::print() const {
 
 ostream& operator<<(ostream& stream, const TabCollection& tabCollection) {
 	for(const Tab* iter = tabCollection.getFirstTab(); iter != NULL; iter = iter->getNext()) {
-		cout<< "> "<< *iter<< endl;
+		if(iter == tabCollection.getCurrentTab()) {
+			cout<< "> ";
+		}
+		cout<< *iter<< endl;
 	}
 }
 
@@ -146,6 +149,9 @@ void TabCollection::sort(TabSortableParameters parameter) {
 		}
 		if(currMin != outerIter) {
 			outerIter->swapData(currMin);
+			if(currMin == currentTab || outerIter == currentTab) {
+				currentTab = (currMin == currentTab) ? outerIter : currMin;
+			}
 		}
 	}
 }
