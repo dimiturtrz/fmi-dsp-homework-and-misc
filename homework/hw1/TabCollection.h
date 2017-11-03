@@ -5,6 +5,8 @@
 #include <iostream>
 using namespace std;
 
+enum TabSortableParameters {Time, URL};
+
 class TabCollection {
 	Tab* firstTab;
 	Tab* currentTab;
@@ -23,9 +25,11 @@ public:
 	void openTab(const char* url);
 	void closeCurrentTab();
 
-	void openUrl(const char* url = " about:blank");
+	void openUrl(const char* url = "about:blank");
 	void goBackwards();
 	void goForward();
+
+	void sort(TabSortableParameters parameter);
 
 	void print() const;
 

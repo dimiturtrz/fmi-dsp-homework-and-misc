@@ -120,6 +120,33 @@ void TabCollection::print() const {
 
 ostream& operator<<(ostream& stream, const TabCollection& tabCollection) {
 	for(const Tab* iter = tabCollection.getFirstTab(); iter != NULL; iter = iter->getNext()) {
-		cout<< ">"<< *iter<< endl;
+		cout<< "> "<< *iter<< endl;
 	}
 }
+
+// ----------------------- SORT --------------------------------
+
+void TabCollection::sort(TabSortableParameters parameter) {
+	Tab* currMin = NULL;
+	for(Tab* outerIter = firstTab; outerIter != NULL; outerIter = outerIter->getNext()) {
+		currMin = outerIter;
+		for(Tab* innerIter = outerIter; innerIter != NULL; innerIter = innerIter->getNext()) {
+			switch(parameter) {
+				case Time:
+					if(currMin->timecmp(*innerIter) == 1) {
+						currMin = innerIter;				
+					}
+					break;
+				case URL:
+					if(currMin->urlcmp(*innerIter) == 1) {
+						currMin = innerIter;				
+					}
+					break;
+			}
+		}
+		if(currMin != outerIter) {
+			outerIter->swapData(currMin);
+		}
+	}
+}
+

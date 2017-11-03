@@ -15,7 +15,7 @@ class Tab {
 	void copy(const Tab& other);
 
 public:
-	Tab(const char* url = " about:blank", Tab* prev = NULL, Tab* next = NULL);
+	Tab(const char* url = "about:blank", Tab* prev = NULL, Tab* next = NULL);
 	Tab(const Tab& other);
 	Tab& operator=(const Tab& other);
 	~Tab();
@@ -34,6 +34,11 @@ public:
 
 	time_t getTimestamp() const;
 	void resetTimestamp();
+
+	int timecmp(const Tab& other) const;
+	int urlcmp(const Tab& other) const;
+
+	void swapData(Tab* other);
 };
 
 ostream& operator<<(ostream& stream, const Tab& tab);

@@ -22,6 +22,12 @@ void TabCollectionConsoleInterface::interpretInput(const char* command, const ch
 		tabCollection.closeCurrentTab();
 	} else if(strcmp(command, "PRINT") == 0) {
 		tabCollection.print();
+	} else if(strcmp(command, "SORT") == 0) {
+		if(strcmp(argument, "TIME") == 0) {
+			tabCollection.sort(Time);
+		} else if(strcmp(argument, "URL") == 0) {
+			tabCollection.sort(URL);
+		}		
 	} else if(strcmp(command, "EXIT") == 0) {
 		stopGettingInput();
 	}
@@ -33,6 +39,8 @@ void TabCollectionConsoleInterface::startGettingInput() {
 	char argument[512];
 	while(gettingInput) {
 		std::cin>> command;
+		if(cin.peek() == ' ')
+			cin.ignore();
 		std::cin.getline(argument, 511);
 		interpretInput(command, argument);
 	}
