@@ -91,6 +91,7 @@ void TabCollection::closeCurrentTab() {
 		currentTab->getPrev()->setNext(currentTab->getNext());
 	} else {
 		firstTab = currentTab->getNext();
+		firstTab->setPrev(NULL);
 	}
 
 	delete currentTab;
