@@ -1,5 +1,5 @@
 #include <iostream>
-using namespace std;
+#include <iomanip>
 
 #include "MyStrings.h"
 #include "TabCollectionConsoleInterface.h"
@@ -35,16 +35,18 @@ void TabCollectionConsoleInterface::interpretInput(const char* command, const ch
 
 void TabCollectionConsoleInterface::startGettingInput() {
 	gettingInput = true;
-	char command[6];
+	char command[9]; // to be able to hold the longest command ("FORWARD", 7) + one extra char if we get something like "FORWARDS" (as it's wrong) + \0
 	char argument[512];
+	
 	while(gettingInput) {
-		std::cin>> command;
-		if(cin.peek() == ' ')
-			cin.ignore();
+		std::cin>> std::setw(9)>> command;
+		if(std::cin.peek() == ' ')
+			std::cin.ignore();
 		std::cin.getline(argument, 511);
 		interpretInput(command, argument);
 	}
 }
+
 void TabCollectionConsoleInterface::stopGettingInput() {
 	gettingInput = false;
 }

@@ -87,7 +87,11 @@ void TabCollection::closeCurrentTab() {
 	bool isThereNextTab = (currentTab->getNext() != NULL);
 	Tab* newCurrentTab = isThereNextTab ? currentTab->getNext() : currentTab->getPrev();
 
-	currentTab->getPrev()->setNext(currentTab->getNext());
+	if(currentTab != firstTab) {
+		currentTab->getPrev()->setNext(currentTab->getNext());
+	} else {
+		firstTab = currentTab->getNext();
+	}
 
 	delete currentTab;
 	currentTab = newCurrentTab;
