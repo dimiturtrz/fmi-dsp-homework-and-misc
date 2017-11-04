@@ -70,15 +70,9 @@ const char* Tab::getUrl() const {
 }
 void Tab::setUrl(const char* newUrl) {
 	delete [] url;
+	url = new char[strlen(newUrl)];
 
-	int length = 0;
-	for(; newUrl[length] != '\0'; ++length);
-
-	url = new char[length];
-
-	for(int i = 0; i < length; ++i) {
-		url[i] = newUrl[i];
-	}
+	strcpy(url, newUrl);
 }
 
 time_t Tab::getTimestamp() const {
