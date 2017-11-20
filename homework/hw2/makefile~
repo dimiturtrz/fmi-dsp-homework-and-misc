@@ -1,0 +1,2 @@
+sorts: MyStrings.cpp Student.cpp main.cpp
+	g++ -o sorts MyStrings.cpp Student.cpp main.cpp -I.
