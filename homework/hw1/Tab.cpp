@@ -1,8 +1,8 @@
 #include "Tab.h"
 #include "MyStrings.h"
+
 #include <time.h>
 #include <iostream>
-using namespace std;
 
 // -------------------------- HELPER --------------------------
 void Tab::copy(const Tab& other) {
@@ -90,8 +90,18 @@ int Tab::timecmp(const Tab& other) const {
 	}
 	return timestamp > other.timestamp ? 1 : -1;
 }
+
 int Tab::urlcmp(const Tab& other) const {
 	return strcmp(url, other.url);
+}
+
+int Tab::cmp(const Tab& other, TabSortableParameters parameter) const {
+	switch(parameter) {
+		case Time:
+			return timecmp(other);
+		case URL:
+			return urlcmp(other);
+	}
 }
 
 // --------------------- SWAP ------------------------
@@ -105,7 +115,7 @@ void Tab::swapData(Tab* other) {
 
 // --------------------- PRINTS ----------------------
 
-ostream& operator<<(ostream& stream, const Tab& tab) {
+std::ostream& operator<<(std::ostream& stream, const Tab& tab) {
 	stream<< tab.getUrl()<< " "<< tab.getTimestamp();
 	return stream;
 }

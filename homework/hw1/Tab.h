@@ -3,7 +3,8 @@
 
 #include <time.h>
 #include <iostream>
-using namespace std;
+
+enum TabSortableParameters {Time, URL};
 
 class Tab {
 	char* url;
@@ -38,9 +39,11 @@ public:
 	int timecmp(const Tab& other) const;
 	int urlcmp(const Tab& other) const;
 
+	int cmp(const Tab& other, TabSortableParameters parameter) const;
+
 	void swapData(Tab* other);
 };
 
-ostream& operator<<(ostream& stream, const Tab& tab);
+std::ostream& operator<<(std::ostream& stream, const Tab& tab);
 
 #endif

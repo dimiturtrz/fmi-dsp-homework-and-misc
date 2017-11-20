@@ -24,9 +24,9 @@ void TabCollectionConsoleInterface::interpretInput(const char* command, const ch
 		tabCollection.print();
 	} else if(strcmp(command, "SORT") == 0) {
 		if(strcmp(argument, "TIME") == 0) {
-			tabCollection.sort(Time);
+			tabCollection.selectionSort(Time);
 		} else if(strcmp(argument, "URL") == 0) {
-			tabCollection.sort(URL);
+			tabCollection.selectionSort(URL);
 		}		
 	} else if(strcmp(command, "EXIT") == 0) {
 		stopGettingInput();

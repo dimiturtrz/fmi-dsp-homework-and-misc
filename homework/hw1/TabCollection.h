@@ -3,9 +3,6 @@
 
 #include "Tab.h"
 #include <iostream>
-using namespace std;
-
-enum TabSortableParameters {Time, URL};
 
 class TabCollection {
 	Tab* firstTab;
@@ -13,6 +10,8 @@ class TabCollection {
 	
 	void copy(const TabCollection& other);
 	void clear();
+
+	int count() const; // too slow for public
 
 public:
 	TabCollection();
@@ -29,7 +28,9 @@ public:
 	void goBackwards();
 	void goForward();
 
-	void sort(TabSortableParameters parameter);
+	void selectionSort(TabSortableParameters parameter);
+	void mergeSort(TabSortableParameters parameter);
+	Tab* mergeSortHelper(Tab* currentFirstTab, TabSortableParameters parameter, int count);
 
 	void print() const;
 
@@ -37,6 +38,6 @@ public:
 	const Tab* getFirstTab() const;
 };
 
-ostream& operator<<(ostream& stream, const TabCollection& tabCollection);
+std::ostream& operator<<(std::ostream& stream, const TabCollection& tabCollection);
 
 #endif

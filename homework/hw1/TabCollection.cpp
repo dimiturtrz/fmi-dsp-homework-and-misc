@@ -1,7 +1,7 @@
 #include "TabCollection.h"
 #include "Tab.h"
+
 #include <iostream>
-using namespace std;
 
 // ---------------------- HELPER ----------------------------
 void TabCollection::copy(const TabCollection& other){
@@ -14,7 +14,9 @@ void TabCollection::copy(const TabCollection& other){
 		return;
 	}
 
-	for(const Tab* otherIter = other.firstTab->getNext(); otherIter != NULL; otherIter = otherIter->getNext()) {
+	for(const Tab* otherIter = other.firstTab->getNext();
+		otherIter != NULL;
+		otherIter = otherIter->getNext()) {
 
 		Tab* newTab = new Tab(otherIter->getUrl(), iter);
 		iter = newTab;
@@ -40,6 +42,13 @@ void TabCollection::clear() {
 
 bool TabCollection::isThereOneTab() const {
 	return (firstTab->getNext() == NULL);
+}
+
+int TabCollection::count() const {
+	int count = 0;
+	const Tab* iter = firstTab;
+	for(; iter != NULL; count++, iter = iter->getNext());
+	return count;
 }
 
 // ------------------------- BIG FOUR ----------------------------
@@ -120,36 +129,27 @@ void TabCollection::goForward() {
 // ------------------------ PRINTS -----------------------------
 
 void TabCollection::print() const {
-	cout<< *this;
+	std::cout<< *this;
 }
 
-ostream& operator<<(ostream& stream, const TabCollection& tabCollection) {
+std::ostream& operator<<(std::ostream& stream, const TabCollection& tabCollection) {
 	for(const Tab* iter = tabCollection.getFirstTab(); iter != NULL; iter = iter->getNext()) {
 		if(iter == tabCollection.getCurrentTab()) {
-			cout<< "> ";
+			std::cout<< "> ";
 		}
-		cout<< *iter<< endl;
+		std::cout<< *iter<< std::endl;
 	}
 }
 
 // ----------------------- SORT --------------------------------
 
-void TabCollection::sort(TabSortableParameters parameter) {
+void TabCollection::selectionSort(TabSortableParameters parameter) {
 	Tab* currMin = NULL;
 	for(Tab* outerIter = firstTab; outerIter != NULL; outerIter = outerIter->getNext()) {
 		currMin = outerIter;
 		for(Tab* innerIter = outerIter; innerIter != NULL; innerIter = innerIter->getNext()) {
-			switch(parameter) {
-				case Time:
-					if(currMin->timecmp(*innerIter) == 1) {
-						currMin = innerIter;				
-					}
-					break;
-				case URL:
-					if(currMin->urlcmp(*innerIter) == 1) {
-						currMin = innerIter;				
-					}
-					break;
+			if(currMin->cmp(*innerIter, parameter) == 1) {
+				currMin = innerIter;
 			}
 		}
 		if(currMin != outerIter) {
@@ -159,5 +159,64 @@ void TabCollection::sort(TabSortableParameters parameter) {
 			}
 		}
 	}
+}
+
+void TabCollection::mergeSort(TabSortableParameters parameter) {
+	mergeSortHelper(firstTab, parameter, count());
+	for(; firstTab->getPrev(); firstTab = firstTab->getPrev());
+}
+
+Tab* TabCollection::mergeSortHelper(Tab* currentFirstTab, TabSortableParameters parameter, int count) {
+	Tab* center = currentFirstTab;
+	for(int counter = count/2; counter > 0; center = center->getNext(), --counter);
+
+	if(count != 1) {
+		currentFirstTab = mergeSortHelper(currentFirstTab, parameter, count/2);
+		center = mergeSortHelper(center, parameter, count - count/2);
+	}
+
+	std::cout<< "\n\n\n"<< count<< "\n\n\n";
+	int inCount = count;
+	for(Tab* iter = currentFirstTab; inCount > 0; iter = iter->getNext(), inCount--) {
+		std::cout<< (iter != NULL ? iter->getUrl() : "NULL")<< " ";
+	}
+	std::cout<< "-> ";
+
+	Tab* firstHalfIter = currentFirstTab;
+	Tab* secondHalfIter = center;
+	Tab* iterPrev = currentFirstTab->getPrev();
+
+
+	for(int count1 = count/2, count2 = count - count/2;
+		count1 > 0 || count2 > 0;) {
+		Tab* nextTab = NULL;
+		
+		//std::cout<< count1<< " "<< count2<< " "<< 
+				//(firstHalfIter != NULL ? firstHalfIter->getUrl() : "NULL")<< ","<< 
+				//(secondHalfIter != NULL ? secondHalfIter->getUrl() : "NULL")<< " \n";
+		if(count2 == 0 || 
+		  (count1 > 0 && firstHalfIter->cmp(*secondHalfIter, parameter) <= 0)) {
+			nextTab = firstHalfIter;
+			firstHalfIter = firstHalfIter->getNext();
+			--count1;
+			//std::cout<< count1<< " 1 "<< 
+				//(firstHalfIter != NULL ? firstHalfIter->getUrl() : "NULL")<< " \n";
+		} else {
+			nextTab = secondHalfIter;
+			secondHalfIter = secondHalfIter->getNext();
+			--count2;
+			//std::cout<< count2<< " 2 "<< 
+				//(secondHalfIter != NULL ? secondHalfIter->getUrl() : "NULL")<< " \n";
+		}
+		std::cout<< count1<< " "<< count2<< " "<< nextTab->getUrl()<< ","<< (iterPrev != NULL ? iterPrev->getUrl() : "NULL")<< " \n";
+		if(iterPrev == currentFirstTab->getPrev()) {
+			currentFirstTab = nextTab;
+		}
+		nextTab->setPrev(iterPrev);
+		nextTab->setNext(NULL);
+		iterPrev = nextTab;
+	}
+	std::cout<< std::endl;
+	return currentFirstTab;
 }
 
