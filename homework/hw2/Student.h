@@ -10,16 +10,17 @@ class Student {
 	int grade;
 	char* date;
 
-	void copy(Student& other);
+	void copy(const Student& other);
 public:
-	Student(const char* name = NULL, int age = 0, const char* subject = NULL,
-			int grade = 2, const char* date = NULL);
+	Student();
+	Student(const char* name, int age, const char* subject,
+			int grade, const char* date);
 
-	Student(Student& other);
-	Student& operator=(Student& other);
+	Student(const Student& other);
+	Student& operator=(const Student& other);
 	~Student();
-};
 
-std::ostream operator<<(std::ostream& stream, Student& student);
+	void print();
+};
 
 #endif

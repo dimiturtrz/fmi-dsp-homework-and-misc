@@ -10,6 +10,7 @@ class StudentCollection {
 
 	void clear();
 	void copy(StudentCollection& other);
+	void expand();
 public:
 	StudentCollection();
 	StudentCollection(StudentCollection& other);

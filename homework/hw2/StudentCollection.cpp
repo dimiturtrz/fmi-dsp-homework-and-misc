@@ -4,6 +4,7 @@
 // ------------------------------ HELPER -------------------------------
 void StudentCollection::clear() {
 	delete [] students;
+	students = NULL;
 	capacity = size = 0;
 }
 
@@ -15,6 +16,16 @@ void StudentCollection::copy(StudentCollection& other) {
 	for(int i=0; i<size; ++i) {
 		students[i] = other.students[i];
 	}
+}
+	
+void StudentCollection::expand() {
+	capacity = (capacity == 0 ? 2 : capacity*2);
+	Student* temp = new Student[capacity];
+	for(int i=0; i< size; ++i) {
+		temp[i] = students[i];
+	}
+	delete [] students;
+	students = temp;
 }
 
 // ---------------------------- BIG FOUR -------------------------------
@@ -36,9 +47,16 @@ StudentCollection::~StudentCollection() {
 }
 
 // ---------------------------- ADDERS AND STUFF ------------------------
-void StudentCollection::add(Student& newStudent) {}
+void StudentCollection::add(Student& newStudent) {
+	if(size+1 > capacity) {
+		expand();
+	}
+	students[size++] = newStudent;
+}
+
 void StudentCollection::print() {
 	for(int i=0; i<size; ++i) {
-		std::cout<< students[i]<< std::endl;
+		students[i].print();
+		std::cout<< std::endl;
 	}
 }
