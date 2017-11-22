@@ -31,12 +31,7 @@ void readCollectionFromFile(StudentCollection& collection, const char* fileName)
 	int grade;
 	char dateBuffer[1024];
 
-	while(file) {
-		if(file.peek() == -1) { // TODO: check!!!
-			break;
-		}
-
-		file.getline(nameBuffer, 1023, ',');
+	while(file.getline(nameBuffer, 1023, ',')) {
 		file>> age;
 		file.ignore();
 		file.getline(subjectBuffer, 1023, ',');
