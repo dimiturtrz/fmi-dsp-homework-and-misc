@@ -20,6 +20,12 @@ public:
 	Student& operator=(const Student& other);
 	~Student();
 
+	int nameCmp(const char* otherName);
+	int ageCmp(const int otherAge);
+	int subjectCmp(const char* otherSubject);
+	int gradeCmp(const int otherGrade);
+	int dateCmp(const char* otherDate);
+
 	void print();
 };
 

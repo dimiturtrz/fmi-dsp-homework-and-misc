@@ -63,5 +63,28 @@ void StudentCollection::print() {
 
 // --------------------------- SORTING ----------------------------------
 void StudentCollection::sort(SortDirection sortDirection, SortParameter sortParameter) {
-	std::cout<< sortDirection<< sortParameter<< std::endl;
+	switch(sortParameter) {
+		case grade:
+			gradeSort(sortDirection);
+			break;
+	}
+}
+
+void StudentCollection::gradeSort(SortDirection sortDirection) {
+	int start = (sortDirection == asc) ? 2 : 6;
+	int end = (start == 6) ? 2 : 6;
+	int step = (sortDirection == asc) ? 1 : -1;
+
+	Student* sortedStudents = new Student[size];
+	int sortedIndex = 0;
+	for(int currentGrade; currentGrade != end; currentGrade += step) {
+		for(int studentIndex = 0; studentIndex < size; ++studentIndex) {
+			if(students[studentIndex].gradeCmp(currentGrade) == 0) {
+				sortedStudents[sortedIndex++] = students[studentIndex];
+			}
+		}
+	}
+
+	delete [] students;
+	students = sortedStudents;
 }

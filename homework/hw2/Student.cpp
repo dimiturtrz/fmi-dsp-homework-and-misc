@@ -39,6 +39,30 @@ Student::~Student() {
 	delete [] date;
 }
 
+// ---------------------------- PUBLIC COMPARERS ------------------------------
+int Student::nameCmp(const char* otherName) {
+	return strcmp(name, otherName);
+}
+int Student::ageCmp(const int otherAge) {
+	if(age == otherAge) {
+		return 0;
+	}
+	return (age > otherAge) ? 1 : -1;
+}
+int Student::subjectCmp(const char* otherSubject) {
+	return strcmp(subject, otherSubject);
+}
+int Student::gradeCmp(const int otherGrade) {
+	if(grade == otherGrade) {
+		return 0;
+	}
+	return (grade > otherGrade) ? 1 : -1;
+}
+int Student::dateCmp(const char* otherDate) {
+	return strcmp(date, otherDate);
+}
+
+// --------------------------- PRINTS ------------------------------------------
 void Student::print() {
 	std::cout<< name<< ", "<< age<< ", "<< subject<< ", "<< grade<< ", "<< date;
 }

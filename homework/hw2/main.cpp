@@ -10,8 +10,8 @@ void sortCollection(StudentCollection& collection, const char* sortArgStr, const
 
 int main (int argc, const char * argv[]) {
 	const char* fileName = argv[1];
-	const char* sortArg = argv[2];
-	const char* sortDir = argv[3];
+	const char* sortDir = argv[2];
+	const char* sortArg = argv[3];
 
 	StudentCollection sc;
 	readCollectionFromFile(sc, fileName);
