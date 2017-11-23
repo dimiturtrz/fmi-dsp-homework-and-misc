@@ -60,3 +60,8 @@ void StudentCollection::print() {
 		std::cout<< std::endl;
 	}
 }
+
+// --------------------------- SORTING ----------------------------------
+void StudentCollection::sort(SortDirection sortDirection, SortParameter sortParameter) {
+	std::cout<< sortDirection<< sortParameter<< std::endl;
+}

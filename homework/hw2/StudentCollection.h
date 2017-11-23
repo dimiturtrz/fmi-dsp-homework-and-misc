@@ -3,6 +3,9 @@
 #ifndef STUDENT_COLLECTION
 #define STUDENT_COLLECTION
 
+enum SortDirection {asc, desc};
+enum SortParameter {name, age, subject, grade, date};
+
 class StudentCollection {
 	Student* students;
 	int size;
@@ -19,6 +22,8 @@ public:
 
 	void add(Student& newStudent);
 	void print();
+
+	void sort(SortDirection sortDirection, SortParameter sortParameter);
 };
 
 #endif
