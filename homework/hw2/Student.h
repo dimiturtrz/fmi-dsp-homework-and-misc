@@ -26,6 +26,8 @@ public:
 	int gradeCmp(const int otherGrade);
 	int dateCmp(const char* otherDate);
 
+	int nameCmp(const Student& other);
+
 	void print();
 };
 

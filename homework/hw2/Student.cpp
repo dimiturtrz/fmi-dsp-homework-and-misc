@@ -62,7 +62,13 @@ int Student::dateCmp(const char* otherDate) {
 	return strcmp(date, otherDate);
 }
 
+int Student::nameCmp(const Student& other) {
+	return strcmp(name, other.name);
+}
+
 // --------------------------- PRINTS ------------------------------------------
 void Student::print() {
-	std::cout<< name<< ", "<< age<< ", "<< subject<< ", "<< grade<< ", "<< date;
+	std::cout<< (name != NULL ? name : "NULL")<< ", "<< age<< ", "
+ 			 << (subject != NULL ? subject : "NULL")<< ", "<< grade<< ", "
+			 << (date != NULL ? date : "NULL");
 }

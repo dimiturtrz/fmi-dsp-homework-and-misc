@@ -26,6 +26,10 @@ int strcmp(const char* str1, const char* str2) {
 }
 
 void dynamicStrCpy(char*& destination, const char* source) {
+	if (source == NULL) {
+		return;
+	}
+
 	delete [] destination;
 	destination = new char[strlen(source) + 1];
 	strcpy(destination, source);

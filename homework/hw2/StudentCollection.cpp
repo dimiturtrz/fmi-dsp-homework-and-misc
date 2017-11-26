@@ -64,6 +64,9 @@ void StudentCollection::print() {
 // --------------------------- SORTING ----------------------------------
 void StudentCollection::sort(SortDirection sortDirection, SortParameter sortParameter) {
 	switch(sortParameter) {
+		case name:
+			nameSort(sortDirection);
+			break;
 		case grade:
 			gradeSort(sortDirection);
 			break;
@@ -87,4 +90,43 @@ void StudentCollection::gradeSort(SortDirection sortDirection) {
 
 	delete [] students;
 	students = sortedStudents;
+}
+
+void StudentCollection::nameSort(SortDirection sortDirection) {
+	Student* secondaryArray = new Student[size];
+	Student* primaryArray = students;
+
+	int swapCmpResult = (sortDirection == asc) ? -1 : 1;
+	
+	for(int chunkSize = 2; chunkSize < size*2; chunkSize *= 2) {
+		int chunkHalf = chunkSize/2;
+		int chunks = size/chunkSize + ((size%chunkSize > chunkHalf) ? 1 : 0);
+		for(int currChunk = 0; currChunk < chunks; ++currChunk) {
+			int start = chunkSize*currChunk;
+			int end = (start + chunkSize < size) ? (start + chunkSize) : size;
+			int leftIndex = 0, rightIndex = chunkHalf;
+			while(leftIndex < chunkHalf || rightIndex < end - start) {
+				if((rightIndex >= end - start) || (leftIndex < chunkHalf && primaryArray[start + leftIndex].nameCmp(primaryArray[start + rightIndex]) == swapCmpResult)) {
+					secondaryArray[start + leftIndex + rightIndex - chunkHalf] = primaryArray[start + leftIndex];
+					leftIndex++;
+				} else {
+					secondaryArray[start + leftIndex + rightIndex - chunkHalf] = primaryArray[start + rightIndex];
+					rightIndex++;
+				}
+			}
+		}
+
+		if(size%chunkSize <= chunkHalf) { // remaining sorted indices
+			for(int index = chunks*chunkSize; index<size; ++index) {
+				secondaryArray[index] = primaryArray[index];
+			}
+		}
+
+		Student* temp = secondaryArray;
+		secondaryArray = primaryArray;
+		primaryArray = temp;
+	}
+
+	students = primaryArray;
+	delete [] secondaryArray;
 }

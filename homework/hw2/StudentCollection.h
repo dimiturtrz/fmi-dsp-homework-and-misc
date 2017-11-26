@@ -16,6 +16,7 @@ class StudentCollection {
 	void expand();
 
 	void gradeSort(SortDirection sortDirection);
+	void nameSort(SortDirection sortDirection);
 public:
 	StudentCollection();
 	StudentCollection(StudentCollection& other);
