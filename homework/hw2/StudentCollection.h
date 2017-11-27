@@ -17,6 +17,7 @@ class StudentCollection {
 
 	void gradeSort(SortDirection sortDirection);
 	void nameSort(SortDirection sortDirection);
+	void ageSort(SortDirection sortDirection);
 public:
 	StudentCollection();
 	StudentCollection(StudentCollection& other);
@@ -28,5 +29,7 @@ public:
 
 	void sort(SortDirection sortDirection, SortParameter sortParameter);
 };
+
+void heapifyNode(Student* students, int nodeIndex, int size, int cmpExpectation);
 
 #endif

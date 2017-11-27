@@ -70,6 +70,9 @@ void StudentCollection::sort(SortDirection sortDirection, SortParameter sortPara
 		case grade:
 			gradeSort(sortDirection);
 			break;
+		case age:
+			ageSort(sortDirection);
+			break;
 	}
 }
 
@@ -129,4 +132,30 @@ void StudentCollection::nameSort(SortDirection sortDirection) {
 
 	students = primaryArray;
 	delete [] secondaryArray;
+}
+
+void StudentCollection::ageSort(SortDirection sortDirection) {
+	int swapCmpResult = (sortDirection == asc) ? -1 : 1;
+	for (int i = size/2; i>=0; --i) {
+		heapifyNode(students, i, size, swapCmpResult);
+	}
+
+	int unsortedSize = size;
+	while (unsortedSize > 1) {
+		students[0].swapData(students[unsortedSize-1]);
+		heapifyNode(students, 0, --unsortedSize, swapCmpResult);
+	}
+}
+
+void heapifyNode(Student* students, int nodeIndex, int size, int cmpExpectation) {
+	int leftNodeIndex = 2*nodeIndex + 1, rightNodeIndex = leftNodeIndex + 1;
+
+	if(leftNodeIndex < size && (students[nodeIndex].ageCmp(students[leftNodeIndex]) == cmpExpectation)) {
+		students[nodeIndex].swapData(students[leftNodeIndex]);
+		heapifyNode(students, leftNodeIndex, size, cmpExpectation);
+	}
+	if(rightNodeIndex < size && (students[nodeIndex].ageCmp(students[rightNodeIndex]) == cmpExpectation)) {
+		students[nodeIndex].swapData(students[rightNodeIndex]);
+		heapifyNode(students, rightNodeIndex, size, cmpExpectation);
+	}
 }

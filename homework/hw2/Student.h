@@ -27,6 +27,12 @@ public:
 	int dateCmp(const char* otherDate);
 
 	int nameCmp(const Student& other);
+	int ageCmp(const Student& other);
+	int subjectCmp(const Student& other);
+	int gradeCmp(const Student& other);
+	int dateCmp(const Student& other);
+
+	void swapData(Student& other);
 
 	void print();
 };

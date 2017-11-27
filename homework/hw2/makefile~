@@ -1,0 +1,2 @@
+sorts: MyStrings.cpp HeapHelper.cpp Student.cpp StudentCollection.cpp main.cpp
+	g++ -o sorts MyStrings.cpp HeapHelper.cpp Student.cpp StudentCollection.cpp main.cpp -I.

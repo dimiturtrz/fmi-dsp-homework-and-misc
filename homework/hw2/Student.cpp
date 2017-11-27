@@ -66,6 +66,30 @@ int Student::nameCmp(const Student& other) {
 	return strcmp(name, other.name);
 }
 
+int Student::ageCmp(const Student& other) {
+	return ageCmp(other.age);
+}
+
+int Student::subjectCmp(const Student& other){
+	return strcmp(subject, other.subject);
+}
+
+int Student::gradeCmp(const Student& other){
+	return gradeCmp(other.age);
+}
+
+int Student::dateCmp(const Student& other){
+	return strcmp(date, other.date);
+}
+
+// --------------------------- SWAP ------------------------------------------
+
+void Student::swapData(Student& other) {
+	Student tmp(other);
+	other = *this;
+	*this = tmp;
+}
+
 // --------------------------- PRINTS ------------------------------------------
 void Student::print() {
 	std::cout<< (name != NULL ? name : "NULL")<< ", "<< age<< ", "
