@@ -65,13 +65,19 @@ void StudentCollection::print() {
 void StudentCollection::sort(SortDirection sortDirection, SortParameter sortParameter) {
 	switch(sortParameter) {
 		case name:
-			nameSort(sortDirection);
+			mergeSort(sortDirection, sortParameter);
+			break;
+		case age:
+			heapSort(sortDirection, sortParameter);
+			break;
+		case subject:
+			mergeSort(sortDirection, sortParameter);
 			break;
 		case grade:
 			gradeSort(sortDirection);
 			break;
-		case age:
-			ageSort(sortDirection);
+		case date:
+			mergeSort(sortDirection, sortParameter);
 			break;
 	}
 }
@@ -95,7 +101,7 @@ void StudentCollection::gradeSort(SortDirection sortDirection) {
 	students = sortedStudents;
 }
 
-void StudentCollection::nameSort(SortDirection sortDirection) {
+void StudentCollection::mergeSort(SortDirection sortDirection, SortParameter sortParameter) {
 	Student* secondaryArray = new Student[size];
 	Student* primaryArray = students;
 
@@ -109,7 +115,10 @@ void StudentCollection::nameSort(SortDirection sortDirection) {
 			int end = (start + chunkSize < size) ? (start + chunkSize) : size;
 			int leftIndex = 0, rightIndex = chunkHalf;
 			while(leftIndex < chunkHalf || rightIndex < end - start) {
-				if((rightIndex >= end - start) || (leftIndex < chunkHalf && primaryArray[start + leftIndex].nameCmp(primaryArray[start + rightIndex]) == swapCmpResult)) {
+				if((rightIndex >= end - start) || (leftIndex < chunkHalf && 
+					studentCmp(primaryArray[start + leftIndex],
+							   primaryArray[start + rightIndex], 
+							   sortParameter) == swapCmpResult)) {
 					secondaryArray[start + leftIndex + rightIndex - chunkHalf] = primaryArray[start + leftIndex];
 					leftIndex++;
 				} else {
@@ -134,28 +143,43 @@ void StudentCollection::nameSort(SortDirection sortDirection) {
 	delete [] secondaryArray;
 }
 
-void StudentCollection::ageSort(SortDirection sortDirection) {
+void StudentCollection::heapSort(SortDirection sortDirection, SortParameter sortParameter) {
 	int swapCmpResult = (sortDirection == asc) ? -1 : 1;
 	for (int i = size/2; i>=0; --i) {
-		heapifyNode(students, i, size, swapCmpResult);
+		heapifyNode(students, i, size, sortParameter, swapCmpResult);
 	}
 
 	int unsortedSize = size;
 	while (unsortedSize > 1) {
 		students[0].swapData(students[unsortedSize-1]);
-		heapifyNode(students, 0, --unsortedSize, swapCmpResult);
+		heapifyNode(students, 0, --unsortedSize, sortParameter, swapCmpResult);
 	}
 }
 
-void heapifyNode(Student* students, int nodeIndex, int size, int cmpExpectation) {
+void heapifyNode(Student* students, int nodeIndex, int size, SortParameter sortParameter, int cmpExpectation) {
 	int leftNodeIndex = 2*nodeIndex + 1, rightNodeIndex = leftNodeIndex + 1;
 
-	if(leftNodeIndex < size && (students[nodeIndex].ageCmp(students[leftNodeIndex]) == cmpExpectation)) {
+	if(leftNodeIndex < size && (studentCmp(students[nodeIndex], students[leftNodeIndex], sortParameter) == cmpExpectation)) {
 		students[nodeIndex].swapData(students[leftNodeIndex]);
-		heapifyNode(students, leftNodeIndex, size, cmpExpectation);
+		heapifyNode(students, leftNodeIndex, size, sortParameter, cmpExpectation);
 	}
-	if(rightNodeIndex < size && (students[nodeIndex].ageCmp(students[rightNodeIndex]) == cmpExpectation)) {
+	if(rightNodeIndex < size && (studentCmp(students[nodeIndex], students[rightNodeIndex], sortParameter) == cmpExpectation)) {
 		students[nodeIndex].swapData(students[rightNodeIndex]);
-		heapifyNode(students, rightNodeIndex, size, cmpExpectation);
+		heapifyNode(students, rightNodeIndex, size, sortParameter, cmpExpectation);
+	}
+}
+
+int studentCmp(Student& first, Student& second, SortParameter parameter) {
+	switch(parameter) {
+		case name:
+			return first.nameCmp(second);
+		case age:
+			return first.ageCmp(second);
+		case subject:
+			return first.subjectCmp(second);
+		case grade:
+			return first.gradeCmp(second);
+		case date:
+			return first.dateCmp(second);
 	}
 }
