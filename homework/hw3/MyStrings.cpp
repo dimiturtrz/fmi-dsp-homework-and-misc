@@ -25,6 +25,15 @@ int strcmp(const char* str1, const char* str2) {
 	return (strlen(str1) == strlen(str2)) ? 0 : (strlen(str1) > strlen(str2) ? 1 : -1);
 }
 
+void strcat(char* destination, const char* source) {
+	int destLen = strlen(destination);
+	int destIter = destLen;
+	for(; source[destIter - destLen] != '\0'; ++destIter) {
+		destination[destIter] = source[destIter - destLen];
+	}
+	destination[destIter] = '\0';
+}
+
 void dynamicStrCpy(char*& destination, const char* source) {
 	if (source == NULL) {
 		return;
