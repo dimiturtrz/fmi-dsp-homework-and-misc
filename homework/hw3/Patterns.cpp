@@ -11,7 +11,7 @@ bool match(const char* str, const char* pattern) {
 
 PatternTypes findPattern(const char* pattern) {
 	for(int i = 0; pattern[i] != '\0'; ++i) {
-		if(pattern[i] == '.') {
+		if(pattern[i] == '.' || pattern[i] == '?' || pattern[i] == '*') {
 			return regex;
 		}
 	}
@@ -28,5 +28,23 @@ bool matchExtension(const char* str, const char* pattern) {
 }
 
 bool matchRegex(const char* str, const char* pattern) {
-	return true;
+	if(str[0] != '\0' && pattern[0] != '\0') {
+		if(pattern[0] == '*') {
+            while(pattern[1] == '*') {
+                return matchRegex(str, pattern + 1);
+            }
+			for(int strInd = 0; str[strInd] != '\0'; ++strInd) {
+				if(matchRegex(str + strInd, pattern + 1)) {
+					return true;
+				}
+			}
+            return matchRegex("", pattern + 1);
+		}
+
+		if(pattern[0] != '?' && pattern[0] != str[0]) {
+			return false;
+		}
+		return matchRegex(str + 1, pattern + 1);
+	}
+	return (str[0] == '\0' && pattern[0] == '\0');
 }
