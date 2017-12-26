@@ -1,54 +1,24 @@
-#include <dirent.h>
 #include <iostream>
 
-#include "MyStrings.h"
+#include "FileTreeConsoleInterface.h"
 
-#define MY_MAX_PATH 260 
+#include "FileIterator.h"
 
-void appendToPath(char* path, const char* newComponent) {
-	int len = strlen(path);
-	path[len] = '/';
-	path[len + 1] = '\0';
-	strcat(path, newComponent);
-}
+int main(int argc, const char * argv[]) {
+	const char* folderPath = (argv[1] != NULL) ? argv[1] : ".";
 
-void removeLastComponent(char* path) {
-	int len = strlen(path);
-	for(; path[len] != '/' && len > 0; --len);
-	path[len] = '\0';
-}
+	/*FileTreeConsoleInterface interface(folderPath);
+	interface.startGettingInput();*/
 
-void listDir(char* path){
-	DIR* dir;
-	struct dirent *ent;
-	if((dir = opendir(path)) != NULL){
-		while ((ent = readdir(dir)) != NULL){
-			if(strcmp(ent->d_name, ".") == 0 || strcmp(ent->d_name, "..") == 0) {
-				continue;
-			}
+	FileIterator iter(folderPath);
 
-			switch(ent->d_type) {
-			case DT_DIR:
-				std::cout<< "dir: "<< ent->d_name<< std::endl;
-				appendToPath(path, ent->d_name);
-				listDir(path);
-				removeLastComponent(path);
-				break;
-			case DT_REG:
-				std::cout<< "file: "<< ent->d_name<< std::endl;
-				break;
-			default:
-				std::cout<< "other: "<< ent->d_type<< std::endl;
-				break;
-			}
+	File* file;
+	while(!iter.isFinished()) {
+		iter.nextFile();
+		if(file = dynamic_cast<File*>(iter.getData())) {
+			std::cout<< file->getName()<< std::endl;
 		}
-		closedir(dir);
-  }
-}
+	}
 
-int main(){
-	char path[MY_MAX_PATH] = "..";
-
-	listDir(path);
 	return 0;
 }

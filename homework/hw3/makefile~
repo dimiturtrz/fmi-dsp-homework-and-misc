@@ -1,2 +1,0 @@
-folders: main.cpp File.cpp Folder.cpp
-	g++ -o folders main.cpp File.cpp Folder.cpp -I.
