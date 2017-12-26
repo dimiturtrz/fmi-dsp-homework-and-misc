@@ -22,7 +22,7 @@ bool matchExtension(const char* str, const char* pattern) {
 	int strLen = strlen(str);
 
 	int dotIndex = strLen - 1;
-	for(; str[dotIndex] != '.'; --dotIndex);
+	for(; dotIndex > 0 && str[dotIndex] != '.'; --dotIndex);
 
 	return (strcmp(str + dotIndex + 1, pattern) == 0);
 }
