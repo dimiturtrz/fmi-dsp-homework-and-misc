@@ -6,12 +6,21 @@ void File::copy(const File& other) {
 	setSize(other.size);
 }
 
-File::File(const char* name, int size): BaseFile(name), size(size) {}
+File::File(const char* name, int size, FileStatus status): 
+			BaseFile(name), size(size), status(status) {}
 
 void File::setSize(int newSize) {
 	size = newSize;
 }
 
+void File::setStatus(FileStatus newStatus) {
+	status = newStatus;
+}
+
 int File::getSize() {
 	return size;
+}
+
+FileStatus File::getStatus() {
+	return status;
 }
