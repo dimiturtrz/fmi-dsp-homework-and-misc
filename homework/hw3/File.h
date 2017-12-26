@@ -17,8 +17,8 @@ public:
 	void setSize(int newSize);
 	void setStatus(FileStatus newStatus);
 
-	int getSize();
-	FileStatus getStatus();
+	int getSize() const;
+	FileStatus getStatus() const;
 };
 
 #endif

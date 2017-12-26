@@ -9,7 +9,7 @@ class FileTreeConsoleInterface {
 
 public:
 
-	FileTreeConsoleInterface(const char* folderPath);
+	FileTreeConsoleInterface(const char* folderPath, const char* pattern);
 
 	void interpretInput(const char* command, const char* argument);
 	void startGettingInput();

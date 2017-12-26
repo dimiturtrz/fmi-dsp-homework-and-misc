@@ -14,9 +14,11 @@ private:
 	char* currDirPath;
 	std::stack<DIR*> streamStack;
 
+	const char* pattern;
+
 	void copy(const FileIterator& other);
 public:
-	FileIterator(const char* path = ".");
+	FileIterator(const char* path = ".", const char* pattern = NULL);
 	FileIterator(const FileIterator& other);
 	FileIterator& operator=(const FileIterator& other);
 	~FileIterator();

@@ -2,6 +2,7 @@
 
 #include "FileIterator.h"
 #include "MyStrings.h"
+#include "Patterns.h"
 #include "File.h"
 #include "Folder.h"
 
@@ -11,7 +12,7 @@ void FileIterator::copy(const FileIterator& other) {
 	data = other.data;
 }
 
-FileIterator::FileIterator(const char* path): currDirPath(NULL), data(NULL) {
+FileIterator::FileIterator(const char* path, const char* pattern): currDirPath(NULL), data(NULL), pattern(pattern) {
 	dynamicStrCpy(currDirPath, path);
 	streamStack.push(opendir(path));
     nextFile();
@@ -43,7 +44,8 @@ void FileIterator::nextFile() {
 	struct dirent* file;
 	struct stat file_stats;
 	for(file = readdir(dirStream);
-		file && (strcmp(file->d_name, ".") == 0 || strcmp(file->d_name, "..") == 0);
+		file && ((strcmp(file->d_name, ".") == 0 || strcmp(file->d_name, "..") == 0) 				 || (file->d_type == DT_REG && pattern != NULL && 
+				!match(file->d_name, pattern)));
 		file = readdir(dirStream));
 
 	if(file) {

@@ -17,10 +17,10 @@ void File::setStatus(FileStatus newStatus) {
 	status = newStatus;
 }
 
-int File::getSize() {
+int File::getSize() const {
 	return size;
 }
 
-FileStatus File::getStatus() {
+FileStatus File::getStatus() const {
 	return status;
 }
