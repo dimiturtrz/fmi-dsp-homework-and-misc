@@ -43,3 +43,20 @@ void dynamicStrCpy(char*& destination, const char* source) {
 	destination = new char[strlen(source) + 1];
 	strcpy(destination, source);
 }
+
+void appendComponentToPath(char*& path, const char* newComponent) {
+	int len = strlen(path) + strlen(newComponent) + 2;
+	char* newPath = new char[len];
+
+	strcpy(newPath, path);
+	strcat(newPath, "/");
+	strcat(newPath, newComponent);
+
+	delete [] path;
+	path = newPath;
+}
+void removeLastComponentFromPath(char*& path) {
+	int len = strlen(path);
+	for(; path[len] != '/' && len > 0; --len);
+	path[len] = '\0';
+}

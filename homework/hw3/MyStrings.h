@@ -12,4 +12,7 @@ void strcat(char* destination, const char* source);
 //specific
 void dynamicStrCpy(char*& destination, const char* source);
 
+void appendComponentToPath(char*& path, const char* newComponent);
+void removeLastComponentFromPath(char*& path);
+
 #endif

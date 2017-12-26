@@ -11,23 +11,6 @@ void FileIterator::copy(const FileIterator& other) {
 	data = other.data;
 }
 
-void FileIterator::appendToCurrPath(const char* newComponent) {
-	int len = strlen(currDirPath) + strlen(newComponent) + 2;
-	char* newPath = new char[len];
-
-	strcpy(newPath, currDirPath);
-	strcat(newPath, "/");
-	strcat(newPath, newComponent);
-
-	delete [] currDirPath;
-	currDirPath = newPath;
-}
-void FileIterator::removeLastComponentFromPath() {
-	int len = strlen(currDirPath);
-	for(; currDirPath[len] != '/' && len > 0; --len);
-	currDirPath[len] = '\0';
-}
-
 FileIterator::FileIterator(const char* path): currDirPath(NULL), data(NULL) {
 	dynamicStrCpy(currDirPath, path);
 	streamStack.push(opendir(path));
@@ -64,7 +47,7 @@ void FileIterator::nextFile() {
 		file = readdir(dirStream));
 
 	if(file) {
-        appendToCurrPath(file->d_name);
+        appendComponentToPath(currDirPath, file->d_name);
 		switch(file->d_type) {
 		case DT_DIR:
 			streamStack.push(opendir(currDirPath));
@@ -76,13 +59,13 @@ void FileIterator::nextFile() {
 			} else {
                 throw;
 			}
-            removeLastComponentFromPath();
+            removeLastComponentFromPath(currDirPath);
             return;
 		}
 	}
 
 	streamStack.pop();
-	removeLastComponentFromPath();
+	removeLastComponentFromPath(currDirPath);
 	data = NULL;
 }
 

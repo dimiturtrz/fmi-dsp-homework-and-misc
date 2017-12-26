@@ -15,9 +15,6 @@ private:
 	std::stack<DIR*> streamStack;
 
 	void copy(const FileIterator& other);
-
-	void appendToCurrPath(const char* newComponent);
-	void removeLastComponentFromPath();
 public:
 	FileIterator(const char* path = ".");
 	FileIterator(const FileIterator& other);
