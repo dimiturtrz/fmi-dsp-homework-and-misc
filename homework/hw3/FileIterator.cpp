@@ -63,17 +63,20 @@ void FileIterator::nextFile() {
 		file = readdir(dirStream));
 
 	if(file) {
+        appendToCurrPath(file->d_name);
 		switch(file->d_type) {
 		case DT_DIR:
-			appendToCurrPath(file->d_name);
 			streamStack.push(opendir(currDirPath));
 			setData(new Folder(file->d_name));
 			return;
 		case DT_REG:
-			if (!stat(file->d_name, &file_stats)) {
+			if (stat(currDirPath, &file_stats) == 0) {
 				setData(new File(file->d_name, file_stats.st_size));
-				return;
+			} else {
+                throw;
 			}
+            removeLastComponentFromPath();
+            return;
 		}
 	}
 
