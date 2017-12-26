@@ -18,7 +18,7 @@ BaseFile::BaseFile(const BaseFile& other): name(NULL) {
 }
 BaseFile& BaseFile::operator=(const BaseFile& other) {
 	if(this != &other) {
-		copy(other);
+ 		copy(other);
 	}
 	return *this;
 }

@@ -31,6 +31,7 @@ void FileIterator::removeLastComponentFromPath() {
 FileIterator::FileIterator(const char* path): currDirPath(NULL), data(NULL) {
 	dynamicStrCpy(currDirPath, path);
 	streamStack.push(opendir(path));
+    nextFile();
 }
 
 FileIterator::FileIterator(const FileIterator& other) {

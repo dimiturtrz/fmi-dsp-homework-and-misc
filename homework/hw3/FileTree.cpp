@@ -1,22 +1,28 @@
 #include "FileTree.h"
 #include "FileIterator.h"
 
-
-void FileTree::clear() {}
-void FileTree::copy(const FileTree& other) {}
-
-FileTree::FileTree(const char* rootFolderPath) {
-	FileIterator iter(rootFolderPath);
-	BaseFile* currFile;
-	while(!iter.isFinished()) {
-		
+FileTree::FileTree(const char* rootFolderPath): root(Folder(rootFolderPath)) {
+	Folder buildRoot = root;
+	BaseFile* data;
+	for(FileIterator iter(rootFolderPath); !iter.isFinished(); iter.nextFile()) {
+		data = iter.getData();
+		if (data != NULL) {
+			File* newFile = dynamic_cast<File*>(data);
+			Folder* newFolder = dynamic_cast<Folder*>(data);
+			if(newFile) {
+				buildRoot.addFile(*newFile);
+			} else if(newFolder) {
+				newFolder->setParent(&buildRoot);
+				buildRoot.addFolder(*newFolder);
+				buildRoot = buildRoot.getTopSubfolder();
+			} else {
+				throw;
+			}
+		} else {
+			buildRoot = buildRoot.getParent();
+		}
 	}
 }
-
-FileTree::FileTree(const FileTree& other) {}
-FileTree& FileTree::operator=(const FileTree& other) {}
-FileTree::~FileTree() {}
-
 
 void FileTree::refresh() {}
 void FileTree::print(const char* pattern) {}

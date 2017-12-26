@@ -8,15 +8,10 @@
 
 class FileTree {
 private:
-	Folder* root;
+	Folder root;
 
-	void clear();
-	void copy(const FileTree& other);
 public:
 	FileTree(const char* rootFolderPath);
-	FileTree(const FileTree& other);
-	FileTree& operator=(const FileTree& other);
-	~FileTree();
 
 	void refresh();
 	void print(const char* pattern);

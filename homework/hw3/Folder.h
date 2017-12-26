@@ -21,6 +21,8 @@ public:
 	const std::vector<File>& getFiles() const;
 	const std::vector<Folder>& getSubfolders() const;
 	
+	Folder& getTopSubfolder();
+	Folder& getParent();
 	void setParent(Folder* newParent);	
 };
 

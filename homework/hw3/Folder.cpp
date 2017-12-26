@@ -16,6 +16,13 @@ const std::vector<Folder>& Folder::getSubfolders() const {
 	return subfolders;
 }
 
+Folder& Folder::getTopSubfolder() {
+	return subfolders.back();
+}
+Folder& Folder::getParent() {
+	return *parent;
+}
+
 void Folder::setParent(Folder* newParent) {
 	parent = newParent;
 }
