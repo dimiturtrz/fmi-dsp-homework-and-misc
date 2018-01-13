@@ -1,13 +1,1 @@
-#include "BinarySearchTree.h"
-
-template<typename T>
-void BinarySearchTree<T>::copy(const BinarySearchTree& other) {
-	clear();
-	
-}
-
-template<typename T>
-void BinarySearchTree<T>::clear(const BinarySearchTree& other) {}
-
-template<typename T>
-BinarySearchTree<T>::BinarySearchTree(): root(NULL) {}
+#include "BinarySearchTree.h"// -------------------------------- NODE ------------------------------------template<typename T>BinarySearchTree<T>::Node::Node(T data, Node* left, Node* right): data(data) {}// -------------------------------- TREE ------------------------------------// ---------------------------- CLEAR HELPERtemplate<typename T>void BinarySearchTree<T>::clear() {	clearSubtree(root);}template<typename T>void BinarySearchTree<T>::clearSubtree(Node* currRoot) {	if(currRoot == NULL) {		return;	}	if(currRoot->left != NULL) {		clearSubtree(currRoot->left);	}	if(currRoot->right != NULL) {		clearSubtree(currRoot->right);	}	delete currRoot;}// --------------------------- COPY HELPERtemplate<typename T>void BinarySearchTree<T>::copy(const BinarySearchTree& other) {	clear();	copySubtree(other.root);}template<typename T>void BinarySearchTree<T>::copySubtree(Node* currRoot, Node* otherCurrRoot) {	if(otherCurrRoot == NULL) {		return;	}	currRoot = new Node(otherCurrRoot->data);	if(otherCurrRoot->left != NULL) {		copySubtree(currRoot->left, otherCurrRoot->left);	}	if(otherCurrRoot->right != NULL) {		copySubtree(currRoot->right, otherCurrRoot->right);	}}// --------------------------- BIG FOURtemplate<typename T>BinarySearchTree<T>::BinarySearchTree(): root(NULL) {}template<typename T>BinarySearchTree<T>::BinarySearchTree(const BinarySearchTree& other) {	copy(other);}template<typename T>BinarySearchTree<T>& BinarySearchTree<T>::operator=(const BinarySearchTree& other) {	if(this != &other) {		copy(other);	}	return *this;}template<typename T>BinarySearchTree<T>::~BinarySearchTree() {	clear();}

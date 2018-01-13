@@ -1,7 +1,8 @@
 #include<iostream>
-#include "BinarySearchTree.h"
+#include "BinarySearchTree.hpp"
 
 int main () {
+	BinarySearchTree<int> bst;
 
 	return 0;
 }
