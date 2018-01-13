@@ -18,11 +18,19 @@ class BinarySearchTree {
 	void clear();
 	void clearSubtree(Node* currRoot);
 
+	void add(const T& data, Node* currRoot);
+	void remove(const T& data, Node* currRoot);
+
+	Node* removeNode(Node* node);
+	T getAndRemoveMin(Node* node, Node* parent);
 public:
 	BinarySearchTree();
 	BinarySearchTree(const BinarySearchTree& other);
 	BinarySearchTree& operator=(const BinarySearchTree& other);
 	~BinarySearchTree();
+
+	void add(const T& data);
+	void remove(const T& data);
 };
 
 #endif
