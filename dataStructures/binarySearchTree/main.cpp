@@ -1,5 +1,5 @@
-#include<iostream>
-#include "BinarySearchTree.hpp"
+#include <iostream>
+#include "BinarySearchTree.h"
 
 int main () {
 	BinarySearchTree<int> bst;
