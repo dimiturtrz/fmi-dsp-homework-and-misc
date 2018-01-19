@@ -1,5 +1,4 @@
 #include <iostream>
-#include "BinarySearchTree.h"
 
 // -------------------------------- NODE ------------------------------------
 
@@ -160,5 +159,25 @@ T BinarySearchTree<T>::getAndRemoveMin(Node* node, Node* parent) {
 		parent->right = node->right;
 		delete node;
 		return oldNodeValue;
+	}
+}
+
+// ------------------------ PRINT
+
+template<typename T>
+void BinarySearchTree<T>::print() {
+	if(root != NULL) {
+		printSubtree(root);
+	}
+}
+
+template<typename T>
+void BinarySearchTree<T>::printSubtree(Node* currRoot) {
+	if(currRoot->left != NULL) {
+		printSubtree(currRoot->left);
+	}
+	std::cout<< currRoot->data<< std::endl;
+	if(currRoot->right != NULL) {
+		printSubtree(currRoot->right);
 	}
 }

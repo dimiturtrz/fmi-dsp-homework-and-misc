@@ -21,6 +21,8 @@ class BinarySearchTree {
 	void add(const T& data, Node* currRoot);
 	void remove(const T& data, Node* currRoot);
 
+	void printSubtree(Node* currRoot);
+
 	Node* removeNode(Node* node);
 	T getAndRemoveMin(Node* node, Node* parent);
 public:
@@ -31,6 +33,10 @@ public:
 
 	void add(const T& data);
 	void remove(const T& data);
+
+	void print();
 };
+
+#include "BinarySearchTree.hpp"
 
 #endif
