@@ -16,7 +16,7 @@ void TrenarySearchTree<T>::clear() {
 
 template<typename T>
 void TrenarySearchTree<T>::clearSubtree(Node*& currRoot) {
-	
+
 	if(currRoot->lo != NULL) {
 		clearSubtree(currRoot->lo);
 	}
@@ -90,10 +90,16 @@ TrenarySearchTree<T>::~TrenarySearchTree() {
 
 template<typename T>
 void TrenarySearchTree<T>::add(const char* key, const T& data) {
-	if(root == NULL) {
+	if(root != NULL) {
+        add(key, data, root);
+	} else {
 		root = new Node(*key);
+		if(*key == '\0') {
+            root->data = new T(data);
+            return;
+		}
+        add(key + 1, data, root);
 	}
-	add(key, data, root);
 }
 
 template<typename T>
@@ -104,7 +110,15 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, Node*& currRoot) 
 		return;
 	}
 
-	if(*key > currRoot->character) {
+
+	if(currRoot->equal == NULL) {
+		currRoot->equal = new Node(*key);
+        return add(key + 1, data, currRoot->equal);
+	}
+
+	if(*key == currRoot->character){
+        return add(key + 1, data, currRoot->equal);
+    } else if(*key > currRoot->character) {
 		if(currRoot->hi == NULL) {
 			currRoot->hi = new Node(*key);
 		}
@@ -115,12 +129,6 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, Node*& currRoot) 
 		}
 		return add(key + 1, data, currRoot->lo);
 	}
-
-
-	if(currRoot->equal == NULL) {
-		currRoot->equal = new Node(*key);
-	}
-	return add(key + 1, data, currRoot->equal);
 }
 
 // ------------------------- REMOVE
@@ -168,30 +176,34 @@ template<typename T>
 void TrenarySearchTree<T>::print() {
 	if(root != NULL) {
 		char accumWord[51] = { '\0' };
+        accumWord[0] = root->character;
 		printSubtree(root, accumWord, 0);
 	}
 }
 
 template<typename T>
 void TrenarySearchTree<T>::printSubtree(Node* currRoot, char* accumWord, int accumWordIndex) {
+    if(currRoot->data != NULL) {
+        accumWord[accumWordIndex + 1] = '\0';
+        std::cout<< accumWord<< std::endl;
+    }
+
+
 	if(currRoot->lo != NULL) {
-		accumWord[accumWordIndex++] = currRoot->lo->character;
-		accumWord[accumWordIndex] = '\0';
+        char temp = accumWord[accumWordIndex];
+		accumWord[accumWordIndex] = currRoot->lo->character;
 		printSubtree(currRoot->lo, accumWord, accumWordIndex);
-		accumWord[--accumWordIndex] = '\0';
+        accumWord[accumWordIndex] = temp;
 	}
 	if(currRoot->equal != NULL) {
-		accumWord[accumWordIndex++] = currRoot->equal->character;
-		accumWord[accumWordIndex] = '\0';
-		printSubtree(currRoot->equal, accumWord, accumWordIndex);
-		accumWord[--accumWordIndex] = '\0';
+		accumWord[accumWordIndex + 1] = currRoot->equal->character;
+		printSubtree(currRoot->equal, accumWord, accumWordIndex + 1);
 	}
-	std::cout<< accumWord<< std::endl;
 	if(currRoot->hi != NULL) {
-		accumWord[accumWordIndex++] = currRoot->hi->character;
-		accumWord[accumWordIndex] = '\0';
+        char temp = accumWord[accumWordIndex];
+		accumWord[accumWordIndex] = currRoot->hi->character;
 		printSubtree(currRoot->hi, accumWord, accumWordIndex);
-		accumWord[--accumWordIndex] = '\0';
+        accumWord[accumWordIndex] = temp;
 	}
 }
 
