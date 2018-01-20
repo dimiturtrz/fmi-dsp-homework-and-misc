@@ -22,7 +22,6 @@ class BinarySearchTree {
 	void remove(const T& data, Node*& currRoot);
 
 	T* getElement(const T& data, Node* currRoot);
-
 	void printSubtree(Node* currRoot);
 
 	Node* removeNode(Node* node);
