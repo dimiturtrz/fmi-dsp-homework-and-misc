@@ -13,18 +13,18 @@ class BinarySearchTree {
 	} * root;
 
 	void copy(const BinarySearchTree& other);
-	void copySubtree(Node* currRoot, Node* otherCurrRoot);
+	void copySubtree(Node*& currRoot, Node* otherCurrRoot);
 
 	void clear();
-	void clearSubtree(Node* currRoot);
+	void clearSubtree(Node*& currRoot);
 
-	void add(const T& data, Node* currRoot);
-	void remove(const T& data, Node* currRoot);
+	void add(const T& data, Node*& currRoot);
+	void remove(const T& data, Node*& currRoot);
 
 	void printSubtree(Node* currRoot);
 
 	Node* removeNode(Node* node);
-	T getAndRemoveMin(Node* node, Node* parent);
+	T getAndRemoveMin(Node* node, Node*& parent);
 public:
 	BinarySearchTree();
 	BinarySearchTree(const BinarySearchTree& other);

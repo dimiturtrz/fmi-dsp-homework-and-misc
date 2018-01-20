@@ -15,7 +15,7 @@ void BinarySearchTree<T>::clear() {
 }
 
 template<typename T>
-void BinarySearchTree<T>::clearSubtree(Node* currRoot) {
+void BinarySearchTree<T>::clearSubtree(Node*& currRoot) {
 	if(currRoot == NULL) {
 		return;
 	}
@@ -29,6 +29,7 @@ void BinarySearchTree<T>::clearSubtree(Node* currRoot) {
 	}
 
 	delete currRoot;
+	currRoot = NULL;
 }
 
 // --------------------------- COPY HELPER
@@ -40,7 +41,7 @@ void BinarySearchTree<T>::copy(const BinarySearchTree& other) {
 }
 
 template<typename T>
-void BinarySearchTree<T>::copySubtree(Node* currRoot, Node* otherCurrRoot) {
+void BinarySearchTree<T>::copySubtree(Node*& currRoot, Node* otherCurrRoot) {
 	if(otherCurrRoot == NULL) {
 		return;
 	}
@@ -87,7 +88,7 @@ void BinarySearchTree<T>::add(const T& data) {
 }
 
 template<typename T>
-void BinarySearchTree<T>::add(const T& data, Node* currRoot) {
+void BinarySearchTree<T>::add(const T& data, Node*& currRoot) {
 	if(currRoot == NULL) {
 		currRoot = new Node(data);
 		return;
@@ -104,25 +105,31 @@ void BinarySearchTree<T>::add(const T& data, Node* currRoot) {
 
 template<typename T>
 void BinarySearchTree<T>::remove(const T& data) {
-	remove(data, root, NULL);
+    if(root->data != data) {
+        return remove(data, root);
+    }
+
+    removeNode(root);
 }
 
 template<typename T>
-void BinarySearchTree<T>::remove(const T& data, Node* currRoot) {
+void BinarySearchTree<T>::remove(const T& data, Node*& currRoot) {
 	if(currRoot == NULL) {
 		throw;
 	}
 
 	if(currRoot->left != NULL && currRoot->left->data == data) {
-		currRoot->left = removeNode((BinarySearchTree<T>::Node)* currRoot->left);
+		currRoot->left = removeNode(currRoot->left);
+        return;
 	} else if(currRoot->right != NULL && currRoot->right->data == data) {
-		currRoot->right = removeNode((BinarySearchTree<T>::Node)* currRoot->right);
-	} 
+		currRoot->right = removeNode(currRoot->right);
+		return;
+	}
 
 	if(currRoot->data < data) {
-		return remove(data, currRoot->right, currRoot);
+		return remove(data, currRoot->right);
 	} else {
-		return remove(data, currRoot->left, currRoot);
+		return remove(data, currRoot->left);
 	}
 }
 
@@ -137,14 +144,14 @@ typename BinarySearchTree<T>::Node * BinarySearchTree<T>::removeNode(BinarySearc
 		BinarySearchTree<T>::Node* newRoot = (node->left != NULL) ? node->left : node->right;
 		delete node;
 		return newRoot;
-	} 
-	
+	}
+
 	delete node;
 	return NULL;
 }
 
 template<typename T>
-T BinarySearchTree<T>::getAndRemoveMin(Node* node, Node* parent) {
+T BinarySearchTree<T>::getAndRemoveMin(Node* node, Node*& parent) {
 	if(node->left != NULL) {
 		if(node->left->left == NULL) {
 			T oldNodeValue = node->left->data;
