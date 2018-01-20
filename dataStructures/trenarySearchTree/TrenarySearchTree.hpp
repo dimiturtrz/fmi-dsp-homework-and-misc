@@ -121,13 +121,17 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, Node*& currRoot) 
     } else if(*key > currRoot->character) {
 		if(currRoot->hi == NULL) {
 			currRoot->hi = new Node(*key);
+            return add(key + 1, data, currRoot->hi);
+		} else {
+            return add(key, data, currRoot->hi);
 		}
-		return add(key + 1, data, currRoot->hi);
 	} else if (*key < currRoot->character) {
 		if(currRoot->lo == NULL) {
 			currRoot->lo = new Node(*key);
+            return add(key + 1, data, currRoot->lo);
+		} else {
+            return add(key, data, currRoot->lo);
 		}
-		return add(key + 1, data, currRoot->lo);
 	}
 }
 

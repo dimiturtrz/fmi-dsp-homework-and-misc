@@ -5,12 +5,19 @@ int main () {
 	TrenarySearchTree<int> tst;
 
 	tst.add("pesho", 1);
-	tst.add("peter", 2);
-	tst.add("penka", 3);
+	tst.add("dcewspeter", 2);
+	tst.add("acrwpenka", 3);
 	tst.add("pesjen", 2);
-	tst.add("joro", 2);
-	tst.add("pesj", 5);
+	tst.add("jofsdafasdro", 2);
 	tst.add("qedo", 2);
+	tst.add("jdhk", 2);
+	tst.add("neri", 2);
+	tst.add("nerijksd", 2);
+	tst.add("nksjsfdhfkjsddf", 2);
+	tst.add("mwejkbhdsaui", 2);
+
+
+
 	tst.print();
 
 	return 0;
