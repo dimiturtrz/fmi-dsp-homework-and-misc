@@ -2,9 +2,10 @@
 #include "TrenarySearchTree.h"
 
 int main () {
-	TrenarySearchTree<int> bst;
+	TrenarySearchTree<int> tst;
 
-	
+	tst.add("pesho", 1);
+	tst.print();
 
 	return 0;
 }

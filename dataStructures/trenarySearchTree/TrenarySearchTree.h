@@ -4,38 +4,28 @@
 template <class T>
 class TrenarySearchTree {
 	struct Node {
-		bool leaf;
-
-		Node(bool leaf);
-	};
-
-	struct BranchNode: Node {
-		BranchNode* hi;
-		BranchNode* lo;
+		Node* hi;
+		Node* lo;
 		Node* equal;
 
-		public:
-			BranchNode(BranchNode* hi = NULL, BranchNode* lo = NULL, Node* equal = NULL);
+		char character;
+		T* data;
+
+	public:
+		Node(char character, T* data = NULL);
 	} * root;
 
-	struct LeafNode: Node {
-		T data;
-
-		public:
-			LeafNode(T data);
-	};
-
 	void clear();
-	void clearSubtree(BranchNode*& currRoot);
+	void clearSubtree(Node*& currRoot);
 
 	void copy(const TrenarySearchTree& other);
-	void copySubtree(BranchNode*& currRoot, BranchNode* otherCurrRoot);
+	void copySubtree(Node*& currRoot, Node* otherCurrRoot);
 
-	void add(const char* key,const T& data, BranchNode*& currRoot);
-	void remove(const T& data, BranchNode*& currRoot);
+	void add(const char* key, const T& data, Node*& currRoot);
+	void remove(const char* key, const T& data, Node*& currRoot);
 
-	T* getElement(const T& data, BranchNode* currRoot);
-	void printSubtree(BranchNode* currRoot);
+	T* getElement(const char* key, Node* currRoot);
+	void printSubtree(Node* currRoot, char* accumWord, int accumWordIndex);
 public:
 	TrenarySearchTree();
 	TrenarySearchTree(const TrenarySearchTree& other);
@@ -43,9 +33,9 @@ public:
 	~TrenarySearchTree();
 
 	void add(const char* key, const T& data);
-	void remove(const T& data);
+	void remove(const char* key, const T& data);
 
-	T* getElement(const T& data);
+	T* getElement(const char* key);
 
 	void print();
 };
