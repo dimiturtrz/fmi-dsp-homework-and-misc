@@ -188,3 +188,25 @@ void BinarySearchTree<T>::printSubtree(Node* currRoot) {
 		printSubtree(currRoot->right);
 	}
 }
+
+// ------------------------ FIND
+
+template<typename T>
+T* BinarySearchTree<T>::getElement(const T& data) {
+	getElement(data, root);
+}
+
+template<typename T>
+T* BinarySearchTree<T>::getElement(const T& data, Node* currRoot) {
+	if(currRoot == NULL) {
+		return NULL;
+	}
+
+	if(currRoot->data < data) {
+		return getElement(data, currRoot->right);
+	} else if(currRoot->data > data) {
+		return getElement(data, currRoot->left);
+	} else {
+		return &(currRoot->data);
+	}
+}

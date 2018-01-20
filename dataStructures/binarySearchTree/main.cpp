@@ -18,5 +18,7 @@ int main () {
 
 	bst.print();
 
+	std::cout<< std::endl<< *(bst.getElement(4))<< std::endl;
+
 	return 0;
 }
