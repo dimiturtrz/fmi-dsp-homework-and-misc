@@ -22,7 +22,7 @@ class TrenarySearchTree {
 	void copySubtree(Node*& currRoot, Node* otherCurrRoot);
 
 	void add(const char* key, const T& data, Node*& currRoot);
-	void remove(const char* key, const T& data, Node*& currRoot);
+	void remove(const char* key, Node*& currRoot);
 
 	T* getElement(const char* key, Node* currRoot);
 	void printSubtree(Node* currRoot, char* accumWord, int accumWordIndex);
@@ -33,7 +33,7 @@ public:
 	~TrenarySearchTree();
 
 	void add(const char* key, const T& data);
-	void remove(const char* key, const T& data);
+	void remove(const char* key);
 
 	T* getElement(const char* key);
 

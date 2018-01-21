@@ -11,12 +11,14 @@ int main () {
 	tst.add("jofsdafasdro", 2);
 	tst.add("qedo", 2);
 	tst.add("jdhk", 2);
-	tst.add("neri", 2);
 	tst.add("nerijksd", 2);
+	tst.add("neri", 2);
 	tst.add("nksjsfdhfkjsddf", 2);
 	tst.add("mwejkbhdsaui", 2);
+	tst.add("brighten", 1);
+    tst.add("bright", 2);
 
-
+	//tst.remove("pesho");
 
 	tst.print();
 

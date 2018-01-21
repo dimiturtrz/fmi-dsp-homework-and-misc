@@ -38,15 +38,13 @@ void TrenarySearchTree<T>::clearSubtree(Node*& currRoot) {
 template<typename T>
 void TrenarySearchTree<T>::copy(const TrenarySearchTree& other) {
 	clear();
-	copySubtree(other.root);
+	if(other.root != NULL) {
+        copySubtree(other.root);
+	}
 }
 
 template<typename T>
 void TrenarySearchTree<T>::copySubtree(Node*& currRoot, Node* otherCurrRoot) {
-
-	if(otherCurrRoot == NULL) {
-		return;
-	}
 
 	currRoot = new Node(otherCurrRoot->character, otherCurrRoot->data);
 
@@ -117,7 +115,11 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, Node*& currRoot) 
 	}
 
 	if(*key == currRoot->character){
-        return add(key + 1, data, currRoot->equal);
+        if(*(key + 1) != '\0') {
+            return add(key + 1, data, currRoot->equal);
+        } else {
+            return add(key + 1, data, currRoot);
+        }
     } else if(*key > currRoot->character) {
 		if(currRoot->hi == NULL) {
 			currRoot->hi = new Node(*key);
@@ -138,12 +140,12 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, Node*& currRoot) 
 // ------------------------- REMOVE
 
 template<typename T>
-void TrenarySearchTree<T>::remove(const char* key, const T& data) {
-    return remove(key, data, root);
+void TrenarySearchTree<T>::remove(const char* key) {
+    return remove(key, root);
 }
 
 template<typename T>
-void TrenarySearchTree<T>::remove(const char* key, const T& data, Node*& currRoot) {
+void TrenarySearchTree<T>::remove(const char* key, Node*& currRoot) {
 	if(*key == '\0') {
 		delete currRoot->data;
 		if(currRoot->hi == NULL && currRoot->lo == NULL && currRoot->equal == NULL) {
@@ -156,17 +158,17 @@ void TrenarySearchTree<T>::remove(const char* key, const T& data, Node*& currRoo
 		if(currRoot->hi == NULL) {
 			return;
 		}
-		remove(key + 1, data, currRoot->hi);
+		remove(key + 1, currRoot->hi);
 	} else if (*key < currRoot->character) {
 		if(currRoot->lo == NULL) {
 			return;
 		}
-		remove(key + 1, data, currRoot->lo);
+		remove(key + 1, currRoot->lo);
 	} else {
 		if(currRoot->equal == NULL) {
 			return;
 		}
-		remove(key + 1, data, currRoot->equal);
+		remove(key + 1, currRoot->equal);
 	}
 
 	if(currRoot->hi == NULL && currRoot->lo == NULL && currRoot->equal == NULL) {
@@ -180,35 +182,26 @@ template<typename T>
 void TrenarySearchTree<T>::print() {
 	if(root != NULL) {
 		char accumWord[51] = { '\0' };
-        accumWord[0] = root->character;
 		printSubtree(root, accumWord, 0);
 	}
 }
 
 template<typename T>
 void TrenarySearchTree<T>::printSubtree(Node* currRoot, char* accumWord, int accumWordIndex) {
+    if(currRoot == NULL) {
+        return;
+    }
+
+    printSubtree(currRoot->lo, accumWord, accumWordIndex);
+    accumWord[accumWordIndex] = currRoot->character;
+
     if(currRoot->data != NULL) {
         accumWord[accumWordIndex + 1] = '\0';
         std::cout<< accumWord<< std::endl;
     }
 
-
-	if(currRoot->lo != NULL) {
-        char temp = accumWord[accumWordIndex];
-		accumWord[accumWordIndex] = currRoot->lo->character;
-		printSubtree(currRoot->lo, accumWord, accumWordIndex);
-        accumWord[accumWordIndex] = temp;
-	}
-	if(currRoot->equal != NULL) {
-		accumWord[accumWordIndex + 1] = currRoot->equal->character;
-		printSubtree(currRoot->equal, accumWord, accumWordIndex + 1);
-	}
-	if(currRoot->hi != NULL) {
-        char temp = accumWord[accumWordIndex];
-		accumWord[accumWordIndex] = currRoot->hi->character;
-		printSubtree(currRoot->hi, accumWord, accumWordIndex);
-        accumWord[accumWordIndex] = temp;
-	}
+    printSubtree(currRoot->equal, accumWord, accumWordIndex + 1);
+    printSubtree(currRoot->hi, accumWord, accumWordIndex);
 }
 
 // ------------------------ FIND
