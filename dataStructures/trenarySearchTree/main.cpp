@@ -36,5 +36,7 @@ int main () {
 
 	std::cout<< std::endl<< *(tst.getElement("pesjen"))<< std::endl;
 
+	TrenarySearchTree<int> tst2 = tst;
+
 	return 0;
 }
