@@ -235,10 +235,14 @@ T* TrenarySearchTree<T>::getElement(const char* key, Node* currRoot) {
 	}
 
 	if(*key > currRoot->character) {
-		return getElement(*key + 1, currRoot->hi);
-	} else if(*key < currRoot->data) {
-		return getElement(*key + 1, currRoot->lo);
+		return getElement(key, currRoot->hi);
+	} else if(*key < currRoot->character) {
+		return getElement(key, currRoot->lo);
 	} else {
-		return getElement(*key + 1, currRoot->equal);
+        if(*(key + 1) != '\0') {
+            return getElement(key + 1, currRoot->equal);
+        } else {
+            return getElement(key + 1, currRoot);
+        }
 	}
 }

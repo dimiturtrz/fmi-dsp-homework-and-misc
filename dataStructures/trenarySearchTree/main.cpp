@@ -9,7 +9,7 @@ int main () {
 	tst.add("peshonesil", 1);
 	tst.add("dcewspeter", 2);
 	tst.add("acrwpenka", 3);
-	tst.add("pesjen", 2);
+	tst.add("pesjen", 5);
 	tst.add("jofsdafasdro", 2);
 	tst.add("qedo", 2);
 	tst.add("jdhk", 2);
@@ -28,8 +28,13 @@ int main () {
 
 	tst.remove("pesho");
 	tst.remove("brighten");
+	tst.remove("peshoooslm");
+	tst.remove("mwejkbhdsaui");
+	tst.remove("neri");
 
 	tst.print();
+
+	std::cout<< std::endl<< *(tst.getElement("pesjen"))<< std::endl;
 
 	return 0;
 }
