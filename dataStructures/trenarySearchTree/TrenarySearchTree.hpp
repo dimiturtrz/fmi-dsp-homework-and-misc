@@ -110,6 +110,9 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, Node*& currRoot) 
 
 
 	if(currRoot->equal == NULL) {
+        if(currRoot->data != NULL) {
+            key += 1;
+        }
 		currRoot->equal = new Node(*key);
         return add(key + 1, data, currRoot->equal);
 	}
@@ -146,33 +149,43 @@ void TrenarySearchTree<T>::remove(const char* key) {
 
 template<typename T>
 void TrenarySearchTree<T>::remove(const char* key, Node*& currRoot) {
+    if(currRoot == NULL) {
+        return;
+    }
+
 	if(*key == '\0') {
 		delete currRoot->data;
+        currRoot->data = NULL;
 		if(currRoot->hi == NULL && currRoot->lo == NULL && currRoot->equal == NULL) {
 			delete currRoot;
+			currRoot = NULL;
 		}
 		return;
 	}
 
-	if(*key > currRoot->character) {
-		if(currRoot->hi == NULL) {
-			return;
-		}
-		remove(key + 1, currRoot->hi);
+	if(*key == currRoot->character){
+        if(*(key + 1) != '\0') {
+            remove(key + 1, currRoot->equal);
+        } else {
+            return remove(key + 1, currRoot);
+        }
+    } else if(*key > currRoot->character) {
+        remove(key, currRoot->hi);
 	} else if (*key < currRoot->character) {
-		if(currRoot->lo == NULL) {
-			return;
-		}
-		remove(key + 1, currRoot->lo);
-	} else {
-		if(currRoot->equal == NULL) {
-			return;
-		}
-		remove(key + 1, currRoot->equal);
+		remove(key, currRoot->lo);
 	}
 
-	if(currRoot->hi == NULL && currRoot->lo == NULL && currRoot->equal == NULL) {
-		delete currRoot;
+	if(currRoot->equal == NULL) {
+        if(currRoot->lo != NULL) {
+            currRoot->equal = currRoot->lo;
+            currRoot->lo = NULL;
+        } else if(currRoot->hi != NULL) {
+            currRoot->equal = currRoot->hi;
+            currRoot->hi = NULL;
+        } else if(currRoot->data == NULL) {
+            delete currRoot;
+            currRoot = NULL;
+        }
 	}
 }
 

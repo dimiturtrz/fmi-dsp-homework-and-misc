@@ -5,6 +5,8 @@ int main () {
 	TrenarySearchTree<int> tst;
 
 	tst.add("pesho", 1);
+	tst.add("peshones", 1);
+	tst.add("peshonesil", 1);
 	tst.add("dcewspeter", 2);
 	tst.add("acrwpenka", 3);
 	tst.add("pesjen", 2);
@@ -17,8 +19,15 @@ int main () {
 	tst.add("mwejkbhdsaui", 2);
 	tst.add("brighten", 1);
     tst.add("bright", 2);
+    tst.add("pesho", 1);
+    tst.add("peshoo", 1);
+    tst.add("peshooo", 1);
+    tst.add("peshooosl", 1);
+    tst.add("peshool", 1);
+    tst.add("peshoooslm", 1);
 
-	//tst.remove("pesho");
+	tst.remove("pesho");
+	tst.remove("brighten");
 
 	tst.print();
 
