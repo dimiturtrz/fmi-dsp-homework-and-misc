@@ -20,5 +20,7 @@ int main () {
 
 	std::cout<< std::endl<< *(bst.getElement(4))<< std::endl;
 
+    BinarySearchTree<int> bst2 = bst;
+
 	return 0;
 }
