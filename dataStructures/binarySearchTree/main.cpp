@@ -18,9 +18,14 @@ int main () {
 
 	bst.print();
 
-	std::cout<< std::endl<< *(bst.getElement(4))<< std::endl;
+	std::cout<< std::endl<< *(bst.getElement(4))<< std::endl<< std::endl;
 
     BinarySearchTree<int> bst2 = bst;
+
+	for(BinarySearchTree<int>::Iterator iter = bst2.begin(); !iter.isFinished(); ++iter) {
+		std::cout<< *(iter)<< " ";
+	}
+	std::cout<< std::endl;
 
 	return 0;
 }

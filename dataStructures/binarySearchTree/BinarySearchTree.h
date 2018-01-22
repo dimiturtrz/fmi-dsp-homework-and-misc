@@ -1,3 +1,5 @@
+#include "stack/Stack.hpp"
+
 #ifndef BINARY_SEARCH_TREE_H
 #define BINARY_SEARCH_TREE_H
 
@@ -7,9 +9,8 @@ class BinarySearchTree {
 		Node* left;
 		Node* right;
 		T data;
-
-		public:
-			Node(T data, Node* left = NULL, Node* right = NULL);
+	public:
+		Node(T data, Node* left = NULL, Node* right = NULL);
 	} * root;
 
 	void copy(const BinarySearchTree& other);
@@ -27,10 +28,22 @@ class BinarySearchTree {
 	Node* removeNode(Node* node);
 	T getAndRemoveMin(Node* node, Node*& parent);
 public:
+	class Iterator {
+		Stack<Node*> iterationStack;
+	public:
+		Iterator(Node* root);
+		T& operator*();
+		Iterator& operator++();
+		Iterator& operator++(int);
+		bool isFinished();
+	};
+
 	BinarySearchTree();
 	BinarySearchTree(const BinarySearchTree& other);
 	BinarySearchTree& operator=(const BinarySearchTree& other);
 	~BinarySearchTree();
+
+	Iterator begin();
 
 	void add(const T& data);
 	void remove(const T& data);
