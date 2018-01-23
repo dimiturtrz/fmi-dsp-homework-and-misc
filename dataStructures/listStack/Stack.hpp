@@ -8,7 +8,7 @@ Stack<T>::Node::Node(const T& data, Stack::Node* next): data(data), next(next) {
 template<typename T>
 void Stack<T>::copy(const Stack& other) {
 	clear();
-	for(Stack::Node* thisIter = top, otherIter = other.top;
+	for(Stack::Node *thisIter = top, *otherIter = other.top;
 			otherIter != NULL; otherIter = otherIter->next) {
 		thisIter = new Node(otherIter->data);
 	}
