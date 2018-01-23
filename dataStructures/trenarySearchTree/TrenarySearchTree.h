@@ -1,3 +1,5 @@
+#include "stack/Stack.hpp"
+
 #ifndef TRENARY_SEARCH_TREE_H
 #define TRENARY_SEARCH_TREE_H
 
@@ -33,10 +35,24 @@ class TrenarySearchTree {
 	T* getElement(const char* key, Node* currRoot);
 	void printSubtree(Node* currRoot, char* accumWord, int accumWordIndex);
 public:
+	class Iterator {
+		Stack<char> word;
+		Stack<Node*> iterationStack;
+	public:
+		Iterator(Node* root);
+		void reachTreeBottom(Node* root);
+		T& operator*();
+		Iterator& operator++();
+		Iterator& operator++(int);
+		bool isFinished();
+	};
+
 	TrenarySearchTree();
 	TrenarySearchTree(const TrenarySearchTree& other);
 	TrenarySearchTree& operator=(const TrenarySearchTree& other);
 	~TrenarySearchTree();
+
+	Iterator begin();
 
 	void add(const char* key, const T& data);
 	void remove(const char* key);

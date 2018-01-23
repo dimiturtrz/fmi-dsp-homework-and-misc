@@ -16,6 +16,86 @@ void TrenarySearchTree<T>::Node::copy(const TrenarySearchTree<T>::Node& other) {
 	data = (other.data != NULL) ? new T(*(other.data)) : NULL;
 }
 
+// ------------------------------ ITERATOR ----------------------------------
+
+template<typename T>
+TrenarySearchTree<T>::Iterator::Iterator(Node* root) {
+	reachTreeBottom(root);
+}
+
+template<typename T>
+void TrenarySearchTree<T>::Iterator::reachTreeBottom(Node* root) {
+    bool first = true;
+	while(root->lo != NULL || root->equal != NULL) {
+		if(root->hi != NULL) {
+			iterationStack.push(root->hi);
+		}
+
+        if(first) {
+            iterationStack.push(root);
+            first = false;
+        }
+		if(root->equal != NULL) {
+            iterationStack.push(root->equal);
+		}
+
+		if(root->lo != NULL) {
+			root = root->lo;
+            word.pop();
+            word.push(root->character);
+		} else {
+			root = root->equal;
+			word.push(root->character);
+		}
+	}
+}
+
+template<typename T>
+T& TrenarySearchTree<T>::Iterator::operator*() {
+	Node* topNode = iterationStack.getTop();
+	return *(topNode->data);
+}
+
+template<typename T>
+typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operator++() {
+	Node *terminal, *top;
+	while(!isFinished()) {
+		terminal = iterationStack.getTop();
+		iterationStack.pop();
+        top = iterationStack.getTop();
+		while(!isFinished() && terminal == top->equal) {
+			if(top->data != NULL) {
+				return *this;
+			}
+			word.pop();
+            terminal = top;
+			iterationStack.pop();
+            if(!isFinished()) { // for empty stack
+                top = iterationStack.getTop();
+            }
+		}
+		if(isFinished()) {
+            break;
+		}
+
+		word.pop();
+		iterationStack.pop();
+		reachTreeBottom(top);
+		return *this;
+	}
+}
+
+template<typename T>
+typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operator++(int) {
+	Iterator currValue(*this);
+	*this = ++(*this);
+	return currValue;
+}
+
+template<typename T>
+bool TrenarySearchTree<T>::Iterator::isFinished() {
+	return iterationStack.isEmpty();
+}
 // ----------------------------- BIG FOUR
 
 template<typename T>
@@ -122,6 +202,13 @@ TrenarySearchTree<T>& TrenarySearchTree<T>::operator=(const TrenarySearchTree& o
 template<typename T>
 TrenarySearchTree<T>::~TrenarySearchTree() {
 	clear();
+}
+
+// -------------------------- INTERATOR
+
+template<typename T>
+typename TrenarySearchTree<T>::Iterator TrenarySearchTree<T>::begin() {
+	return Iterator(root);
 }
 
 // ---------------------------- ADD

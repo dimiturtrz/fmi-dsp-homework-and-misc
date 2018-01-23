@@ -4,7 +4,7 @@
 int main () {
 	TrenarySearchTree<int> tst;
 
-	tst.add("pesho", 1);
+	/*tst.add("pesho", 1);
 	tst.add("peshones", 1);
 	tst.add("peshonesil", 1);
 	tst.add("dcewspeter", 2);
@@ -34,9 +34,19 @@ int main () {
 
 	tst.print();
 
-	std::cout<< std::endl<< *(tst.getElement("pesjen"))<< std::endl;
+	std::cout<< std::endl<< *(tst.getElement("pesjen"))<< std::endl;*/
 
 	TrenarySearchTree<int> tst2 = tst;
+
+	tst2.add("alpha", 1);
+	tst2.add("alps", 2);
+    tst2.add("alpse", 3);
+    tst2.add("alpzer", 4);
+
+	for(TrenarySearchTree<int>::Iterator iter = tst2.begin(); !iter.isFinished(); ++iter) {
+		std::cout<< *iter<< std::endl;
+	}
+	std::cout<< std::endl;
 
 	return 0;
 }
