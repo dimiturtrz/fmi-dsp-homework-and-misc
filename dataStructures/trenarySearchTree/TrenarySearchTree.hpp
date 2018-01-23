@@ -42,7 +42,7 @@ void TrenarySearchTree<T>::Iterator::reachTreeBottom() {
 			root = root->lo;
             word.pop();
             word.push(root->character);
-            iterationStack.push(Pair<Node*, bool>(root->lo, false));
+            iterationStack.push(Pair<Node*, bool>(root, false));
 		} else {
 			root = root->equal;
 			word.push(root->character);
