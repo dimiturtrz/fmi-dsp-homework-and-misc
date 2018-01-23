@@ -1,4 +1,5 @@
 #include "stack/Stack.hpp"
+#include "pair/Pair.hpp"
 
 #ifndef TRENARY_SEARCH_TREE_H
 #define TRENARY_SEARCH_TREE_H
@@ -37,7 +38,7 @@ class TrenarySearchTree {
 public:
 	class Iterator {
 		Stack<char> word;
-		Stack<Node*> iterationStack;
+		Stack< Pair<Node*, bool> > iterationStack;
 	public:
 		Iterator(Node* root);
 		void reachTreeBottom();

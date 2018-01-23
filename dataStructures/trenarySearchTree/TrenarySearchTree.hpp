@@ -20,29 +20,29 @@ void TrenarySearchTree<T>::Node::copy(const TrenarySearchTree<T>::Node& other) {
 
 template<typename T>
 TrenarySearchTree<T>::Iterator::Iterator(Node* root) {
-    iterationStack.push(root);
+    iterationStack.push(Pair<Node*, bool>(root, false));
 	reachTreeBottom();
 }
 
 template<typename T>
 void TrenarySearchTree<T>::Iterator::reachTreeBottom() {
-    Node* root = iterationStack.getTop();
+    Node* root = iterationStack.getTop().first;
 	while(root->lo != NULL || root->equal != NULL) {
         iterationStack.pop();
 		if(root->hi != NULL) {
-			iterationStack.push(root->hi);
+			iterationStack.push(Pair<Node*, bool>(root->hi, false));
 		}
 
-        iterationStack.push(root);
+        iterationStack.push(Pair<Node*, bool>(root, true));
 		if(root->equal != NULL) {
-            iterationStack.push(root->equal);
+            iterationStack.push(Pair<Node*, bool>(root->equal, false));
 		}
 
 		if(root->lo != NULL) {
 			root = root->lo;
             word.pop();
             word.push(root->character);
-            iterationStack.push(root->lo);
+            iterationStack.push(Pair<Node*, bool>(root->lo, false));
 		} else {
 			root = root->equal;
 			word.push(root->character);
@@ -52,7 +52,7 @@ void TrenarySearchTree<T>::Iterator::reachTreeBottom() {
 
 template<typename T>
 T& TrenarySearchTree<T>::Iterator::operator*() {
-	Node* topNode = iterationStack.getTop();
+	Node* topNode = iterationStack.getTop().first;
 	return *(topNode->data);
 }
 
@@ -60,9 +60,9 @@ template<typename T>
 typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operator++() {
 	Node *terminal, *top;
 	while(!isFinished()) {
-		terminal = iterationStack.getTop();
+		terminal = iterationStack.getTop().first;
 		iterationStack.pop();
-        top = iterationStack.getTop();
+        top = iterationStack.getTop().first;
 		while(!isFinished() && terminal == top->equal) {
 			if(top->data != NULL) {
 				return *this;
@@ -71,7 +71,7 @@ typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operato
             terminal = top;
 			iterationStack.pop();
             if(!isFinished()) { // for empty stack
-                top = iterationStack.getTop();
+                top = iterationStack.getTop().first;
             }
 		}
 		if(isFinished()) {
@@ -79,8 +79,10 @@ typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operato
 		}
 
 		word.pop();
-		reachTreeBottom();
-		return *this;
+        if(!iterationStack.getTop().second) {
+            reachTreeBottom();
+            return *this;
+        }
 	}
 }
 
