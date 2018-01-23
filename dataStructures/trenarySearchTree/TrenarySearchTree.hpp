@@ -20,21 +20,20 @@ void TrenarySearchTree<T>::Node::copy(const TrenarySearchTree<T>::Node& other) {
 
 template<typename T>
 TrenarySearchTree<T>::Iterator::Iterator(Node* root) {
-	reachTreeBottom(root);
+    iterationStack.push(root);
+	reachTreeBottom();
 }
 
 template<typename T>
-void TrenarySearchTree<T>::Iterator::reachTreeBottom(Node* root) {
-    bool first = true;
+void TrenarySearchTree<T>::Iterator::reachTreeBottom() {
+    Node* root = iterationStack.getTop();
 	while(root->lo != NULL || root->equal != NULL) {
+        iterationStack.pop();
 		if(root->hi != NULL) {
 			iterationStack.push(root->hi);
 		}
 
-        if(first) {
-            iterationStack.push(root);
-            first = false;
-        }
+        iterationStack.push(root);
 		if(root->equal != NULL) {
             iterationStack.push(root->equal);
 		}
@@ -43,6 +42,7 @@ void TrenarySearchTree<T>::Iterator::reachTreeBottom(Node* root) {
 			root = root->lo;
             word.pop();
             word.push(root->character);
+            iterationStack.push(root->lo);
 		} else {
 			root = root->equal;
 			word.push(root->character);
@@ -79,8 +79,7 @@ typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operato
 		}
 
 		word.pop();
-		iterationStack.pop();
-		reachTreeBottom(top);
+		reachTreeBottom();
 		return *this;
 	}
 }

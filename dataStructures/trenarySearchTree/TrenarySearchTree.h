@@ -40,7 +40,7 @@ public:
 		Stack<Node*> iterationStack;
 	public:
 		Iterator(Node* root);
-		void reachTreeBottom(Node* root);
+		void reachTreeBottom();
 		T& operator*();
 		Iterator& operator++();
 		Iterator& operator++(int);
