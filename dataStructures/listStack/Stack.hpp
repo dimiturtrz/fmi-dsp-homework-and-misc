@@ -1,5 +1,8 @@
 #include <iostream>
 
+#ifndef STACK_HPP
+#define STACK_HPP
+
 #include "Stack.h"
 
 template<typename T>
@@ -58,8 +61,11 @@ bool Stack<T>::isEmpty() {
 }
 
 template<typename T>
-T* Stack<T>::getTop() {
-	return ((top != NULL ) ? &(top->data) : NULL);
+T& Stack<T>::getTop() {
+	if(isEmpty()) {
+		throw;
+	}
+	return top->data;
 }
 
 template<typename T>
@@ -79,3 +85,5 @@ void Stack<T>::pop() {
 	top = top->next;
 	delete oldTop;
 }
+
+#endif

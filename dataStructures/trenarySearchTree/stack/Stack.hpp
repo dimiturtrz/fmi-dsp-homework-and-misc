@@ -1,5 +1,8 @@
 #include <iostream>
 
+#ifndef STACK_HPP
+#define STACK_HPP
+
 #include "Stack.h"
 
 template<typename T>
@@ -82,3 +85,5 @@ void Stack<T>::pop() {
 	top = top->next;
 	delete oldTop;
 }
+
+#endif

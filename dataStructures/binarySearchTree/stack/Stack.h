@@ -1,5 +1,5 @@
-#ifndef STACK
-#define STACK
+#ifndef STACK_H
+#define STACK_H
 
 template<class T>
 class Stack {
@@ -19,7 +19,7 @@ public:
 	~Stack();
 
 	bool isEmpty();
-	T* getTop();
+	T& getTop();
 	void push(const T& data);
 	void pop();
 };

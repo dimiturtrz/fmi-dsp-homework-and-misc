@@ -7,7 +7,7 @@ int main () {
 	st.push(5);
 	st.push(15);
 	while(!st.isEmpty()) {
-		std::cout<< *(st.getTop())<< std::endl;
+		std::cout<< st.getTop()<< std::endl;
 		st.pop();
 	}
 
