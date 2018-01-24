@@ -4,7 +4,7 @@
 int main () {
 	TrenarySearchTree<int> tst;
 
-	/*tst.add("pesho", 1);
+	tst.add("pesho", 1);
 	tst.add("peshones", 1);
 	tst.add("peshonesil", 1);
 	tst.add("dcewspeter", 2);
@@ -26,19 +26,19 @@ int main () {
     tst.add("peshool", 1);
     tst.add("peshoooslm", 1);
 
-	tst.remove("pesho");
+	/*tst.remove("pesho");
 	tst.remove("brighten");
 	tst.remove("peshoooslm");
 	tst.remove("mwejkbhdsaui");
-	tst.remove("neri");
+	tst.remove("neri");*/
 
 	tst.print();
 
-	std::cout<< std::endl<< *(tst.getElement("pesjen"))<< std::endl;*/
+	//std::cout<< std::endl<< *(tst.getElement("pesjen"))<< std::endl;
 
-	TrenarySearchTree<int> tst2 = tst;
+	//TrenarySearchTree<int> tst2 = tst;
 
-    tst2.add("pesho", 1);
+    /*tst2.add("pesho", 1);
 	tst2.add("peshones", 1);
 	tst2.add("peshonesil", 1);
 	tst2.add("dcewspeter", 2);
@@ -52,18 +52,23 @@ int main () {
 	tst2.add("nksjsfdhfkjsddf", 2);
 	tst2.add("mwejkbhdsaui", 2);
 	tst2.add("brighten", 1);
-    tst2.add("bright", 2);
-    tst2.add("pesho", 1);
-    tst2.add("peshoo", 1);
-    tst2.add("peshooo", 1);
-    tst2.add("peshooosl", 1);
-    tst2.add("peshool", 1);
-    tst2.add("peshoooslm", 1);
+    tst2.add("bright", 2);*/
+    //tst2.add("pesho", 1);
+    //tst2.add("peshoo", 1);
+    //tst2.add("peshooo", 1);
+    //tst2.add("peshooosl", 1);
+    //tst2.add("peshool", 1);
+    //tst2.add("peshoooslm", 1);
+    //tst2.add("gsho", 4);
+    //tst2.add("gshl", 5);
 
+	/*char buff[30];
+	char* buffPointer = buff;
 	for(TrenarySearchTree<int>::Iterator iter = tst2.begin(); !iter.isFinished(); ++iter) {
-		std::cout<< *iter<< std::endl;
+		iter.getWord(buffPointer);
+		std::cout<< buff<< std::endl;
 	}
-	std::cout<< std::endl;
+	std::cout<< std::endl;*/
 
 	return 0;
 }

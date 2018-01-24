@@ -21,6 +21,7 @@ void TrenarySearchTree<T>::TSTNode::copy(const TrenarySearchTree<T>::TSTNode& ot
 template<typename T>
 TrenarySearchTree<T>::Iterator::Iterator(TSTNode* root) {
     iterationStack.push(Pair<TSTNode*, bool>(root, false));
+    word.push(root->character);
 	reachTreeBottom();
 }
 
@@ -63,13 +64,14 @@ typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operato
 		terminal = iterationStack.getTop().first;
 		iterationStack.pop();
         top = iterationStack.getTop().first;
+		word.pop();
 		while(!isFinished() && terminal == top->equal) {
 			if(top->data != NULL) {
 				return *this;
 			}
 			word.pop();
-            terminal = top;
 			iterationStack.pop();
+            terminal = top;
             if(!isFinished()) { // for empty stack
                 top = iterationStack.getTop().first;
             }
@@ -80,6 +82,7 @@ typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operato
 
 		word.pop();
         if(!iterationStack.getTop().second) {
+			word.push(iterationStack.getTop().first->character);
             reachTreeBottom();
             return *this;
         }
@@ -122,6 +125,22 @@ typename TrenarySearchTree<T>::TSTNode& TrenarySearchTree<T>::TSTNode::operator=
 template<typename T>
 TrenarySearchTree<T>::TSTNode::~TSTNode() {
 	delete data;
+}
+
+template<typename T>
+void TrenarySearchTree<T>::Iterator::getWord(char*& buffer) {
+	Stack<char> st2;
+	while(!word.isEmpty()) {
+		st2.push(word.getTop());
+		word.pop();
+	}
+	int i = 0;
+	for(;!st2.isEmpty(); ++i) {
+		word.push(st2.getTop());
+		buffer[i] = st2.getTop();
+		st2.pop();
+	}
+	buffer[i] = '\0';
 }
 
 // -------------------------------- TREE ------------------------------------
@@ -224,7 +243,7 @@ void TrenarySearchTree<T>::add(const char* key, const T& data) {
             root->data = new T(data);
             return;
 		}
-        add(key + 1, data, root);
+        add(key, data, root);
 	}
 }
 
@@ -236,17 +255,11 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, TSTNode*& currRoo
 		return;
 	}
 
-
-	if(currRoot->equal == NULL) {
-        if(currRoot->data != NULL) {
-            key += 1;
-        }
-		currRoot->equal = new TSTNode(*key);
-        return add(key + 1, data, currRoot->equal);
-	}
-
 	if(*key == currRoot->character){
         if(*(key + 1) != '\0') {
+            if(currRoot->equal == NULL) {
+                currRoot->equal = new TSTNode(*(key + 1));
+            }
             return add(key + 1, data, currRoot->equal);
         } else {
             return add(key + 1, data, currRoot);
@@ -254,17 +267,13 @@ void TrenarySearchTree<T>::add(const char* key, const T& data, TSTNode*& currRoo
     } else if(*key > currRoot->character) {
 		if(currRoot->hi == NULL) {
 			currRoot->hi = new TSTNode(*key);
-            return add(key + 1, data, currRoot->hi);
-		} else {
-            return add(key, data, currRoot->hi);
 		}
+		return add(key, data, currRoot->hi);
 	} else if (*key < currRoot->character) {
 		if(currRoot->lo == NULL) {
 			currRoot->lo = new TSTNode(*key);
-            return add(key + 1, data, currRoot->lo);
-		} else {
-            return add(key, data, currRoot->lo);
 		}
+		return add(key, data, currRoot->lo);
 	}
 }
 
