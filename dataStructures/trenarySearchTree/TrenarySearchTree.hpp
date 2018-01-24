@@ -80,9 +80,15 @@ typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operato
             break;
 		}
 
-		word.pop();
+        if((terminal->hi == NULL || terminal->hi != top) && top->data == NULL) {
+            Pair<TSTNode*, bool> stTop = iterationStack.getTop();
+            iterationStack.pop();
+            word.push(iterationStack.getTop().first->character);
+            iterationStack.push(stTop);
+        }
+
         if(!iterationStack.getTop().second) {
-			word.push(iterationStack.getTop().first->character);
+			word.push(top->character);
             reachTreeBottom();
             return *this;
         }
