@@ -65,7 +65,7 @@ void TrenarySearchTree<T>::Iterator::emerge() {
 
 template<typename T>
 T& TrenarySearchTree<T>::Iterator::operator*() {
-	TSTNode* topTSTNode = iterationStack.getTop().first;
+	TSTNode* topTSTNode = iterationStack.getTop();
 	return *(topTSTNode->data);
 }
 

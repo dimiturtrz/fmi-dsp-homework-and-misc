@@ -1,5 +1,4 @@
 #include "stack/Stack.hpp"
-#include "pair/Pair.hpp"
 
 #ifndef TRENARY_SEARCH_TREE_H
 #define TRENARY_SEARCH_TREE_H
