@@ -37,11 +37,14 @@ class TrenarySearchTree {
 	void printSubtree(TSTNode* currRoot, char* accumWord, int accumWordIndex);
 public:
 	class Iterator {
-		Stack<char> word;
-		Stack< Pair<TSTNode*, bool> > iterationStack;
+        const TSTNode* root;
+        TSTNode* lastPop;
+        TSTNode* lastVisited;
+		Stack<TSTNode*> iterationStack;
 	public:
 		Iterator(TSTNode* root);
-		void reachTreeBottom();
+		void sink();
+		void emerge();
 		T& operator*();
 		Iterator& operator++();
 		Iterator& operator++(int);

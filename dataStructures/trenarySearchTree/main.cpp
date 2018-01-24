@@ -38,7 +38,7 @@ int main () {
 
 	TrenarySearchTree<int> tst2 = tst;
 
-    /*tst2.add("pesho", 1);
+    tst2.add("pesho", 1);
 	tst2.add("peshones", 1);
 	tst2.add("peshonesil", 1);
 	tst2.add("dcewspeter", 2);
@@ -59,10 +59,10 @@ int main () {
     tst2.add("gsho", 4);
     tst2.add("gshl", 5);
     tst2.add("peao", 4);
-    tst2.add("pezo",7);*/
-    tst2.add("pesho",7);
+    tst2.add("pezo",7);
     tst2.add("nef",6);
     tst2.add("nfds",5);
+    tst2.add("pesho",7);
 
 	char buff[30];
 	char* buffPointer = buff;

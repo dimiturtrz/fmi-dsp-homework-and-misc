@@ -19,35 +19,47 @@ void TrenarySearchTree<T>::TSTNode::copy(const TrenarySearchTree<T>::TSTNode& ot
 // ------------------------------ ITERATOR ----------------------------------
 
 template<typename T>
-TrenarySearchTree<T>::Iterator::Iterator(TSTNode* root) {
-    iterationStack.push(Pair<TSTNode*, bool>(root, false));
-    word.push(root->character);
-	reachTreeBottom();
+TrenarySearchTree<T>::Iterator::Iterator(TSTNode* root): root(root), lastPop(NULL), lastVisited(NULL) {
+    iterationStack.push(root);
+	sink();
+	lastVisited = iterationStack.getTop();
 }
 
 template<typename T>
-void TrenarySearchTree<T>::Iterator::reachTreeBottom() {
-    TSTNode* root = iterationStack.getTop().first;
-	while(root->lo != NULL || root->equal != NULL) {
-        iterationStack.pop();
-		if(root->hi != NULL) {
-			iterationStack.push(Pair<TSTNode*, bool>(root->hi, false));
-		}
+void TrenarySearchTree<T>::Iterator::sink() {
+    TSTNode* top = iterationStack.getTop();
 
-        iterationStack.push(Pair<TSTNode*, bool>(root, true));
-		if(root->equal != NULL) {
-            iterationStack.push(Pair<TSTNode*, bool>(root->equal, false));
-		}
+	while(top->lo != NULL || top->equal != NULL || top->hi != NULL) {
+		if(top->lo != NULL && lastPop != top->lo &&
+            (lastPop != top->equal || top->equal ==NULL) &&
+            (lastPop != top->hi || top->hi == NULL)) {
+            top = top->lo;
+        } else if(top->equal != NULL && lastPop != top->equal && (lastPop != top->hi || top->hi == NULL)) {
+            top = top->equal;
+        } else if(top->hi != NULL && lastPop != top->hi) {
+            top = top->hi;
+        } else {
+            break;
+        }
+        iterationStack.push(top);
+	}
+}
 
-		if(root->lo != NULL) {
-			root = root->lo;
-            word.pop();
-            word.push(root->character);
-            iterationStack.push(Pair<TSTNode*, bool>(root, false));
-		} else {
-			root = root->equal;
-			word.push(root->character);
+template<typename T>
+void TrenarySearchTree<T>::Iterator::emerge() {
+    TSTNode* top = iterationStack.getTop();
+
+    int branching = (top->hi != NULL) + (top->equal != NULL) + (top->lo != NULL);
+    bool nodeFinished = (top->equal == lastPop && top->hi == NULL) || top->hi == lastPop;
+	while((branching < 2 || nodeFinished) && (top->data == NULL || top == lastVisited) && !isFinished()) {
+        lastPop = top;
+		iterationStack.pop();
+		if(isFinished()) {
+            break;
 		}
+		top = iterationStack.getTop();
+        branching = (top->hi != NULL) + (top->equal != NULL) + (top->lo != NULL);
+        nodeFinished = (top->equal == lastPop && top->hi == NULL) || top->hi == lastPop;
 	}
 }
 
@@ -59,40 +71,14 @@ T& TrenarySearchTree<T>::Iterator::operator*() {
 
 template<typename T>
 typename TrenarySearchTree<T>::Iterator& TrenarySearchTree<T>::Iterator::operator++() {
-	TSTNode *terminal, *top;
-	while(!isFinished()) {
-		terminal = iterationStack.getTop().first;
-		iterationStack.pop();
-        top = iterationStack.getTop().first;
-		word.pop();
-		while(!isFinished() && terminal == top->equal) {
-			if(top->data != NULL) {
-				return *this;
-			}
-			word.pop();
-			iterationStack.pop();
-            terminal = top;
-            if(!isFinished()) { // for empty stack
-                top = iterationStack.getTop().first;
-            }
-		}
-		if(isFinished()) {
-            break;
-		}
+    while(!isFinished() &&(iterationStack.getTop()->data == NULL || iterationStack.getTop() == lastVisited)) {
+        sink();
+        emerge();
+    }
 
-        if((terminal->hi == NULL || terminal->hi != top) && top->data == NULL) {
-            Pair<TSTNode*, bool> stTop = iterationStack.getTop();
-            iterationStack.pop();
-            word.push(iterationStack.getTop().first->character);
-            iterationStack.push(stTop);
-        }
-
-        if(!iterationStack.getTop().second) {
-			word.push(top->character);
-            reachTreeBottom();
-            return *this;
-        }
-	}
+    if(!isFinished()) {
+        lastVisited = iterationStack.getTop();
+    }
 }
 
 template<typename T>
@@ -106,6 +92,31 @@ template<typename T>
 bool TrenarySearchTree<T>::Iterator::isFinished() {
 	return iterationStack.isEmpty();
 }
+
+template<typename T>
+void TrenarySearchTree<T>::Iterator::getWord(char*& buffer) {
+	Stack<TrenarySearchTree<T>::TSTNode*> st2;
+
+	while(!iterationStack.isEmpty()) {
+		st2.push(iterationStack.getTop());
+		iterationStack.pop();
+	}
+
+	int i = 0;
+	while(!st2.isEmpty()) {
+		if(!iterationStack.isEmpty()) {
+            i += (st2.getTop() == iterationStack.getTop()->equal) ? 1 : 0;
+            buffer[i] = st2.getTop()->character;
+		} else {
+            buffer[i] = st2.getTop()->character;
+		}
+
+		iterationStack.push(st2.getTop());
+		st2.pop();
+	}
+	buffer[i + 1] = '\0';
+}
+
 // ----------------------------- BIG FOUR
 
 template<typename T>
@@ -131,22 +142,6 @@ typename TrenarySearchTree<T>::TSTNode& TrenarySearchTree<T>::TSTNode::operator=
 template<typename T>
 TrenarySearchTree<T>::TSTNode::~TSTNode() {
 	delete data;
-}
-
-template<typename T>
-void TrenarySearchTree<T>::Iterator::getWord(char*& buffer) {
-	Stack<char> st2;
-	while(!word.isEmpty()) {
-		st2.push(word.getTop());
-		word.pop();
-	}
-	int i = 0;
-	for(;!st2.isEmpty(); ++i) {
-		word.push(st2.getTop());
-		buffer[i] = st2.getTop();
-		st2.pop();
-	}
-	buffer[i] = '\0';
 }
 
 // -------------------------------- TREE ------------------------------------
